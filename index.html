@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#134e4a">
+    <title>خزائن النور</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" />
+<link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+</head>
+<body>
+
+    <header>
+        <div class="brand">
+            <button id="backBtn" class="btn-icon hidden">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </button>
+            <span id="titleEl" style="font-weight:800">خزائن النور</span>
+        </div>
+
+        <div id="readerTools" class="hidden" style="display:flex; align-items:center; gap:4px;">
+            <button class="btn-icon" data-action="font-size" data-delta="2" style="width:36px; height:36px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+            </button>
+            <button class="btn-icon" data-action="font-size" data-delta="-2" style="width:36px; height:36px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+            </button>
+            <button class="btn-icon" data-action="open-font-modal" data-target="reader" style="width:36px; height:36px; font-weight:bold; font-family:serif; font-size:1rem">
+                Aa
+            </button>
+
+            <button class="btn-icon" data-action="toggle-verse-search" style="width:36px; height:36px;" title="بحث داخل السورة">
+                <span class="material-symbols-outlined" style="font-size:20px;">search</span>
+            </button>
+            <button class="btn-icon" data-action="toggle-focus" style="width:36px; height:36px;" title="وضع التركيز">
+                <span class="material-symbols-outlined" style="font-size:20px;">center_focus_strong</span>
+            </button>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:2px;">
+            <button id="searchToggle" class="btn-icon" data-action="toggle-search" style="width:40px; height:40px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </button>
+            <button id="menuToggle" class="btn-icon" data-action="toggle-sidebar" style="width:40px; height:40px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <button id="themeToggle" class="btn-icon" style="width:40px; height:40px;">
+            <svg id="sunIcon" class="hidden" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"/><path d="M12 1v2"/><path d="M12 21v2"/><path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4.22 19.78l1.42-1.42"/><path d="M18.36 5.64l1.42-1.42"/>
+            </svg>
+            <svg id="moonIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+        </button>
+        </div>
+    </header>
+
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h3>الأقسام</h3>
+            <button class="btn-icon" data-action="toggle-sidebar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <div class="sidebar-content">
+            <div class="sidebar-item" data-action="show-category" data-category="duas">الأدعية</div>
+            <div class="sidebar-item" data-action="show-category" data-category="ziyarat">الزيارات</div>
+            <div class="sidebar-item" data-action="show-category" data-category="monajat">المناجاة</div>
+            <div class="sidebar-item" data-action="show-category" data-category="baqiyat">الباقيات الصالحات</div>
+            <div class="sidebar-item" data-action="show-category" data-category="nahj_balagha">نهج البلاغة</div>
+            <div class="sidebar-item" data-action="show-category" data-category="months">أعمال الشهور</div>
+            <div class="sidebar-item" data-action="show-category" data-category="aqaid_imamiah">عقائد الإمامية</div>
+            <div class="sidebar-item" data-action="show-category" data-category="rights">رسالة الحقوق</div>
+            <div class="sidebar-item" data-action="navigate" data-page="occasions">المناسبات</div>
+        </div>
+    </div>
+    <div id="sidebarOverlay" class="modal-overlay" data-action="toggle-sidebar-overlay"></div>
+    <div id="searchBar" class="search-container hidden">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="ابحث عن دعاء، زيارة، أو عمل..." oninput="Views.handleSearch(this.value)">
+            <button class="btn-icon" data-action="toggle-search">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <div id="searchResults" class="search-results"></div>
+    </div>
+    <main id="app"></main>
+
+    <div id="fontModal" class="modal-overlay" data-action="close-font-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">اختر الخط</h3>
+                <button class="btn-icon" data-action="close-font-modal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="fontList" class="fonts-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <nav>
+        <button class="nav-btn active" data-action="navigate" data-page="home" data-target="home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span>الرئيسية</span>
+        </button>
+        <button class="nav-btn" data-action="navigate" data-page="library" data-target="library">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+            <span>المكتبة</span>
+        </button>
+        <button class="nav-btn" data-action="navigate" data-page="tasbih" data-target="tasbih">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 2v4"></path>
+                <path d="M12 18v4"></path>
+                <path d="M4.93 4.93l2.83 2.83"></path>
+                <path d="M16.24 16.24l2.83 2.83"></path>
+                <path d="M2 12h4"></path>
+                <path d="M18 12h4"></path>
+                <path d="M4.93 19.07l2.83-2.83"></path>
+                <path d="M16.24 7.76l2.83-2.83"></path>
+            </svg>
+            <span>المسبحة</span>
+        </button>
+        <button class="nav-btn" data-action="navigate" data-page="settings" data-target="settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+            <span>إعدادات</span>
+        </button>
+    </nav>
+
+    <script src="js/db.js"></script>
+    <script src="js/days.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/quran.js"></script>
+    <script src="js/occasions.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/play.js"></script>
+    <script src="js/actions.js"></script>
+    <script src="js/start.js"></script>
+
+</body>
+</html>
