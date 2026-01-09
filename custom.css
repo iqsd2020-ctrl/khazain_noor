@@ -1,0 +1,11 @@
+/* Overrides for customised sidebar navigation layout */
+
+/* Remove extra bottom padding originally reserved for the bottom navigation bar */
+main {
+    padding-bottom: 30px !important;
+}
+
+/* Ensure any existing bottom navigation bar is hidden */
+nav {
+    display: none !important;
+}

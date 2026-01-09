@@ -7,6 +7,8 @@
     <title>خزائن النور</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!-- Custom overrides for sidebar navigation and layout -->
+    <link rel="stylesheet" href="custom.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" />
 <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -74,21 +76,31 @@
 
     <div id="sidebar" class="sidebar">
         <div class="sidebar-header">
-            <h3>الأقسام</h3>
+            <!-- Changed the sidebar title from categories to a general menu -->
+            <h3>القائمة</h3>
             <button class="btn-icon" data-action="toggle-sidebar">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
         </div>
+        <!-- Replace the category list with a vertical navigation menu -->
         <div class="sidebar-content">
-            <div class="sidebar-item" data-action="show-category" data-category="duas">الأدعية</div>
-            <div class="sidebar-item" data-action="show-category" data-category="ziyarat">الزيارات</div>
-            <div class="sidebar-item" data-action="show-category" data-category="monajat">المناجاة</div>
-            <div class="sidebar-item" data-action="show-category" data-category="baqiyat">الباقيات الصالحات</div>
-            <div class="sidebar-item" data-action="show-category" data-category="nahj_balagha">نهج البلاغة</div>
-            <div class="sidebar-item" data-action="show-category" data-category="months">أعمال الشهور</div>
-            <div class="sidebar-item" data-action="show-category" data-category="aqaid_imamiah">عقائد الإمامية</div>
-            <div class="sidebar-item" data-action="show-category" data-category="rights">رسالة الحقوق</div>
-            <div class="sidebar-item" data-action="navigate" data-page="occasions">المناسبات</div>
+            <div class="sidebar-item" data-action="navigate" data-page="home" data-target="home">
+                <span class="material-symbols-outlined" aria-hidden="true">home</span>
+                <span style="margin-right:8px">الرئيسية</span>
+            </div>
+            <!-- استبدل عنصر المكتبة بزر المفضلة -->
+            <div class="sidebar-item" data-action="navigate" data-page="favorites" data-target="favorites">
+                <span class="material-symbols-outlined" aria-hidden="true">favorite</span>
+                <span style="margin-right:8px">المفضلة</span>
+            </div>
+            <div class="sidebar-item" data-action="navigate" data-page="tasbih" data-target="tasbih">
+                <span class="material-symbols-outlined" aria-hidden="true">toll</span>
+                <span style="margin-right:8px">المسبحة</span>
+            </div>
+            <div class="sidebar-item" data-action="navigate" data-page="settings" data-target="settings">
+                <span class="material-symbols-outlined" aria-hidden="true">settings</span>
+                <span style="margin-right:8px">الإعدادات</span>
+            </div>
         </div>
     </div>
     <div id="sidebarOverlay" class="modal-overlay" data-action="toggle-sidebar-overlay"></div>
@@ -119,43 +131,7 @@
         </div>
     </div>
 
-    <nav>
-        <button class="nav-btn active" data-action="navigate" data-page="home" data-target="home">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-            </svg>
-            <span>الرئيسية</span>
-        </button>
-        <button class="nav-btn" data-action="navigate" data-page="library" data-target="library">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-            </svg>
-            <span>المكتبة</span>
-        </button>
-        <button class="nav-btn" data-action="navigate" data-page="tasbih" data-target="tasbih">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M12 2v4"></path>
-                <path d="M12 18v4"></path>
-                <path d="M4.93 4.93l2.83 2.83"></path>
-                <path d="M16.24 16.24l2.83 2.83"></path>
-                <path d="M2 12h4"></path>
-                <path d="M18 12h4"></path>
-                <path d="M4.93 19.07l2.83-2.83"></path>
-                <path d="M16.24 7.76l2.83-2.83"></path>
-            </svg>
-            <span>المسبحة</span>
-        </button>
-        <button class="nav-btn" data-action="navigate" data-page="settings" data-target="settings">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="3"></circle>
-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-            </svg>
-            <span>إعدادات</span>
-        </button>
-    </nav>
+    <!-- Removed the bottom navigation bar entirely; navigation is now handled via the sidebar menu -->
 
     <script src="js/db.js"></script>
     <script src="js/days.js"></script>

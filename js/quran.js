@@ -36,7 +36,10 @@ const Quran = {
   init: async () => {
     if (Quran.data) return;
     try {
-      const response = await fetch('json/القران الكريم.json');
+      // اسم الملف في المجلد json تم تحويله إلى ترميز Unicode مع علامات #، لذلك نقوم بتركيب المسار الصحيح بشكل آمن
+      const fileName = '#U0627#U0644#U0642#U0631#U0627#U0646 #U0627#U0644#U0643#U0631#U064a#U0645.json';
+      const encoded = encodeURIComponent(fileName);
+      const response = await fetch('json/' + encoded);
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       Quran.data = await response.json();
     } catch (error) {

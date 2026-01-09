@@ -66,6 +66,13 @@
         if (window.Views?.showCategory) window.Views.showCategory(key);
         break;
       }
+      case 'show-category-tab': {
+        const key = el.dataset.category;
+        const idxStr = el.dataset.index;
+        const idx = idxStr ? parseInt(idxStr, 10) : 0;
+        if (window.Views?.showCategoryTab) window.Views.showCategoryTab(key, idx);
+        break;
+      }
       case 'toggle-sidebar': {
         if (window.Views?.toggleSidebar) window.Views.toggleSidebar();
         break;
@@ -114,6 +121,7 @@
         const file = el.dataset.file;
         const id = el.dataset.id;
         const categoryKey = el.dataset.categorykey;
+        const groupIndex = el.dataset.groupindex;
         const fromDays = el.dataset.fromdays === 'true';
 
         if (title) payload.title = title;
@@ -121,6 +129,18 @@
         if (id) payload.id = id;
         if (categoryKey) payload.categoryKey = categoryKey;
         if (fromDays) payload.fromDays = true;
+
+        // If we are opening from a grouped category list, store scroll position and pass group index
+        if (categoryKey && typeof groupIndex !== 'undefined') {
+          try {
+            const appEl = document.getElementById('app');
+            if (appEl) {
+              localStorage.setItem('scroll_' + categoryKey + '_' + groupIndex, appEl.scrollTop);
+            }
+          } catch {}
+          // pass group index to the reader payload so we can navigate back correctly
+          payload.groupIndex = parseInt(groupIndex, 10);
+        }
 
         if (window.Router?.navigate) window.Router.navigate('reader', payload);
         break;

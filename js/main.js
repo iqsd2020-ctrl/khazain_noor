@@ -7,11 +7,7 @@ const Router = {
         const overlay = document.getElementById('sidebarOverlay');
         if (sidebar) sidebar.classList.remove('active');
         if (overlay) overlay.classList.remove('active');
-        // إظهار شريط التنقل السفلي في كل الصفحات الرئيسية.
-        // كان مخفياً في كل الصفحات ما عدا الرئيسية مما يمنع التنقل بين التبويبات.
-        const nav = document.querySelector('nav');
-        const hideNavPages = new Set(['reader', 'surah']);
-        if (nav) nav.style.display = hideNavPages.has(p) ? 'none' : '';
+        // ليس هناك شريط تنقل سفلي بعد الآن، لذا لا حاجة لتحديث ظهوره
 
         const readerTools = document.getElementById('readerTools');
         const searchToggle = document.getElementById('searchToggle');
@@ -31,12 +27,7 @@ const Router = {
             }
         }
 
-        document.querySelectorAll('.nav-btn').forEach(b => {
-            b.classList.remove('active');
-            if (b.dataset.target === p || (p === 'reader' && b.dataset.target === 'library')) {
-                b.classList.add('active');
-            }
-        });
+        // لم تعد هناك أزرار تنقل سفلية لتعيين الحالة النشطة لها
 
         const backBtn = document.getElementById('backBtn');
         if (p !== 'home') {
@@ -44,7 +35,12 @@ const Router = {
             if (p === 'reader' && d && d.fromDays) {
                 backBtn.onclick = () => Router.navigate('days');
             } else if (p === 'reader' && d && d.categoryKey) {
-                backBtn.onclick = () => Views.showCategory(d.categoryKey);
+                // إذا كان لدينا رقم المجموعة، نعود إليها مباشرة. وإلا نعود إلى قائمة القسم.
+                if (typeof d.groupIndex !== 'undefined') {
+                    backBtn.onclick = () => Views.showCategoryTab(d.categoryKey, d.groupIndex);
+                } else {
+                    backBtn.onclick = () => Views.showCategory(d.categoryKey);
+                }
             } else if (p === 'reader') {
                 backBtn.onclick = () => Router.back();
             } else if (p === 'surah') {
@@ -71,10 +67,12 @@ const Router = {
             case 'library': Views.library(); break;
             case 'reader': Views.reader(d); break;
             case 'tasbih': if (typeof Views.tasbih === 'function') Views.tasbih(); break;
+            case 'favorites': if (typeof Views.favorites === 'function') Views.favorites(); break;
             case 'settings': Views.settings(); break;
         }
     },
-    back: () => Router.navigate('library')
+    // back ينتقل الآن إلى الصفحة الرئيسية بدلاً من المكتبة، حيث تم جمع الأقسام في الصفحة الرئيسية
+    back: () => Router.navigate('home')
 };
 
 const Views={
@@ -141,24 +139,49 @@ const Views={
     },
 
     home:()=>{
-        document.getElementById('titleEl').innerText='خزائن النور';
-        const t=new Date().toLocaleDateString('ar-SA-u-ca-islamic',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-        document.getElementById('app').innerHTML=`<div class="fade-in">
+        // الصفحة الرئيسية تعرض بطاقة التاريخ الهجري يعقبها شبكة تحوي كل الأقسام الرئيسية
+        const titleEl = document.getElementById('titleEl');
+        if (titleEl) titleEl.innerText = 'خزائن النور';
+        const hijriDate = new Date().toLocaleDateString('ar-SA-u-ca-islamic', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+        // قائمة بكل الأقسام بما في ذلك القرآن والمسبحة وأعمال الأيام
+        const allSections = [
+            { id: 'duas', title: 'الأدعية', icon: 'volunteer_activism', action: 'show-category' },
+            { id: 'ziyarat', title: 'الزيارات', icon: 'mosque', action: 'show-category' },
+            { id: 'monajat', title: 'المناجاة', icon: 'library_books', action: 'show-category' },
+            { id: 'baqiyat', title: 'الباقيات الصالحات', icon: 'diamond', action: 'show-category' },
+            { id: 'nahj_balagha', title: 'نهج البلاغة', icon: 'article', action: 'show-category' },
+            { id: 'months', title: 'أعمال الشهور', icon: 'nightlight', action: 'show-category' },
+            { id: 'aqaid_imamiah', title: 'عقائد الإمامية', icon: 'shield', action: 'show-category' },
+            { id: 'rights', title: 'رسالة الحقوق', icon: 'balance', action: 'show-category' },
+            { id: 'monasbat', title: 'المناسبات', icon: 'event', action: 'show-category' },
+            { id: 'friday_duas_audio', title: 'أدعية الجمعة (صوتياً)', icon: 'headphones', action: 'show-category' },
+            { id: 'days', title: 'أعمال الأيام', icon: 'calendar_month', action: 'navigate', page: 'days' },
+            { id: 'quran', title: 'القرآن الكريم', icon: 'menu_book', action: 'navigate', page: 'quran' },
+            { id: 'tasbih', title: 'المسبحة', icon: 'toll', action: 'navigate', page: 'tasbih' }
+        ];
+
+        // بناء HTML للصفحة الرئيسية
+        let html = `<div class="fade-in">
             <div class="card hero-card" data-action="navigate" data-page="occasions" style="cursor:pointer; background: linear-gradient(135deg, var(--primary), #0d9488); color: white; border: none;">
                 <div style="opacity:0.8;font-size:0.9rem;margin-bottom:4px">التاريخ الهجري</div>
-                <div style="font-size:1.4rem;font-weight:800;margin-bottom:12px">${t}</div>
+                <div style="font-size:1.4rem;font-weight:800;margin-bottom:12px">${hijriDate}</div>
                 <div id="occasionStrip" style="background:rgba(255,255,255,0.1); border-radius: 12px; min-height: 50px; display: flex; align-items: center; justify-content: center;">
                     <span style="font-size: 0.8rem; opacity: 0.7;">جاري تحميل المناسبة...</span>
                 </div>
             </div>
-            
-            <h3 style="margin-bottom:16px;font-size:1.1rem">الوصول السريع</h3>
-            <div class="grid-menu">
-                <div class="menu-item" data-action="show-category" data-category="duas"><span class="menu-icon material-symbols-outlined" aria-hidden="true">volunteer_activism</span><span style="font-weight:700">الأدعية</span></div>
-                <div class="menu-item" data-action="navigate" data-page="quran"><span class="menu-icon material-symbols-outlined" aria-hidden="true">menu_book</span><span style="font-weight:700">القرآن الكريم</span></div>
-                <div class="menu-item" data-action="show-category" data-category="monajat"><span class="menu-icon material-symbols-outlined" aria-hidden="true">library_books</span><span style="font-weight:700">المناجاة</span></div>
-                <div class="menu-item" data-action="navigate" data-page="tasbih"><span class="menu-icon material-symbols-outlined" aria-hidden="true">toll</span><span style="font-weight:700">المسبحة</span></div>
-            </div>
+
+            <h3 style="margin:24px 0 16px;font-size:1.1rem">الأقسام</h3>
+            <div class="grid-menu">`;
+        allSections.forEach(sec => {
+            if (sec.action === 'show-category') {
+                html += `<div class="menu-item" data-action="show-category" data-category="${sec.id}"><span class="menu-icon material-symbols-outlined" aria-hidden="true">${sec.icon}</span><span style="font-weight:700">${sec.title}</span></div>`;
+            } else if (sec.action === 'navigate') {
+                const pg = sec.page || sec.id;
+                html += `<div class="menu-item" data-action="navigate" data-page="${pg}"><span class="menu-icon material-symbols-outlined" aria-hidden="true">${sec.icon}</span><span style="font-weight:700">${sec.title}</span></div>`;
+            }
+        });
+        html += `</div>
 
             <div class="card" style="margin-top:24px;border-right:4px solid var(--secondary)">
                 <div style="font-size:3rem;line-height:0;color:var(--text-muted);opacity:0.2;margin-bottom:10px">“</div>
@@ -166,21 +189,24 @@ const Views={
                 <div style="text-align:center;margin-top:12px;font-size:0.9rem;color:var(--primary);font-weight:700">— الإمام الصادق (ع)</div>
             </div>
         </div>`;
+        const appEl = document.getElementById('app');
+        if (appEl) appEl.innerHTML = html;
         if (typeof Occasions !== 'undefined') {
             Occasions.initHome();
         }
-},
+    },
 
     days:()=>{
         document.getElementById('titleEl').innerText='أيام الأسبوع';
+        // استخدم أسماء الملفات المشفرة كما هي في مجلد txt/days، لأن أسماء الملفات العربية تم تحويلها إلى ترميز Unicode
         const daysList = [
-            { name: 'السبت', icon: 'nightlight', file: 'days/السبت.txt' },
-            { name: 'الأحد', icon: 'wb_sunny', file: 'days/الأحد.txt' },
-            { name: 'الاثنين', icon: 'eco', file: 'days/الاثنين.txt' },
-            { name: 'الثلاثاء', icon: 'candle', file: 'days/الثلاثاء.txt' },
-            { name: 'الأربعاء', icon: 'waves', file: 'days/الأربعاء.txt' },
-            { name: 'الخميس', icon: 'auto_awesome', file: 'days/الخميس.txt' },
-            { name: 'الجمعة', icon: 'mosque', file: 'days/الجمعة.txt' }
+            { name: 'السبت', icon: 'nightlight', file: 'days/#U0627#U0644#U0633#U0628#U062a.txt' },
+            { name: 'الأحد', icon: 'wb_sunny', file: 'days/#U0627#U0644#U0623#U062d#U062f.txt' },
+            { name: 'الاثنين', icon: 'eco', file: 'days/#U0627#U0644#U0627#U062b#U0646#U064a#U0646.txt' },
+            { name: 'الثلاثاء', icon: 'candle', file: 'days/#U0627#U0644#U062b#U0644#U0627#U062b#U0627#U0621.txt' },
+            { name: 'الأربعاء', icon: 'waves', file: 'days/#U0627#U0644#U0623#U0631#U0628#U0639#U0627#U0621.txt' },
+            { name: 'الخميس', icon: 'auto_awesome', file: 'days/#U0627#U0644#U062e#U0645#U064a#U0633.txt' },
+            { name: 'الجمعة', icon: 'mosque', file: 'days/#U0627#U0644#U062c#U0645#U0639#U0629.txt' }
         ];
         
         let html = `<div class="fade-in">
@@ -226,9 +252,7 @@ const Views={
 
   // في ملف main.js - استبدل دالة Views.showCategory بالكامل بهذه النسخة المصححة:
 showCategory: async (key) => {
-    // تم حذف سطر Views.toggleSidebar() من هنا لأنه كان يفتح القائمة تلقائياً
-    
-    // تأكيد إغلاق القائمة (زيادة في الحرص)
+    // إغلاق الشريط الجانبي إن كان مفتوحاً
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebarOverlay');
     if (sidebar) sidebar.classList.remove('active');
@@ -242,36 +266,75 @@ showCategory: async (key) => {
         return;
     }
 
+    // عناوين الأقسام باللغة العربية
     const titles = {
         duas: 'الأدعية', ziyarat: 'الزيارات', monajat: 'المناجاة', baqiyat: 'الباقيات الصالحات',
         nahj_balagha: 'نهج البلاغة', months: 'أعمال الشهور', aqaid_imamiah: 'عقائد الإمامية',
         rights: 'رسالة الحقوق', monasbat: 'المناسبات', friday_duas_audio: 'أدعية الجمعة (صوتياً)'
     };
-
     document.getElementById('titleEl').innerText = titles[key] || 'المكتبة';
-    
-    let html = `<div class="fade-in">`;
-    data.forEach(tab => {
-        html += `<div class="list-group"><h3>${tab.tab_title}</h3><div style="border-radius:var(--radius-md);box-shadow:var(--shadow-sm)">`;
-        tab.items.forEach(item => {
-            const title = item.title || item.title1;
-            // --- التغيير هنا: استخدام Router.navigate بدلاً من Views.reader ---
-            html += `<div class="list-tile" data-action="open-reader" data-id="${item.id}" data-title="${title}" data-categorykey="${key}">
-                <span>${title}</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted)"><path d="M15 19l-7-7 7-7"/></svg>
-            </div>`;
-            // ---------------------------------------------------------------
-        });
-        html += `</div></div><div style="height:24px"></div>`;
+
+    // بناء قائمة التبويبات (المجموعات) فقط
+    let html = `<div class="fade-in"><div class="list-group">`;
+    data.forEach((tab, idx) => {
+        html += `<div class="list-tile" data-action="show-category-tab" data-category="${key}" data-index="${idx}">
+            <span>${tab.tab_title}</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted)"><path d="M15 19l-7-7 7-7"/></svg>
+        </div>`;
     });
-    html += `</div>`;
+    html += `</div></div>`;
     app.innerHTML = html;
     app.scrollTop = 0;
-    
-    // تحديث زر الرجوع ليعود للمكتبة في حال كنا في القائمة الرئيسية للقسم
+
+    // زر الرجوع يرجع إلى الصفحة الرئيسية حيث تعرض كافة الأقسام
     const backBtn = document.getElementById('backBtn');
     backBtn.classList.remove('hidden');
-    backBtn.onclick = () => Router.navigate('library');
+    backBtn.onclick = () => Router.navigate('home');
+},
+
+    // عرض عناصر تبويب معيّن داخل القسم
+showCategoryTab: async (key, index) => {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    if (sidebar) sidebar.classList.remove('active');
+    if (overlay) overlay.classList.remove('active');
+
+    const data = await DB.load(key);
+    if (!data || !Array.isArray(data) || !data[index]) {
+        return;
+    }
+    const tab = data[index];
+    document.getElementById('titleEl').innerText = tab.tab_title;
+
+    const app = document.getElementById('app');
+    let html = `<div class="fade-in"><div class="list-group"><div style="border-radius:var(--radius-md);box-shadow:var(--shadow-sm)">`;
+    tab.items.forEach(item => {
+        const title = item.title || item.title1;
+        html += `<div class="list-tile" data-action="open-reader" data-id="${item.id}" data-title="${title}" data-categorykey="${key}" data-groupindex="${index}">
+            <span>${title}</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted)"><path d="M15 19l-7-7 7-7"/></svg>
+        </div>`;
+    });
+    html += `</div></div></div>`;
+    app.innerHTML = html;
+
+    // استرجاع آخر موضع تمرير إذا كان محفوظاً
+    try {
+        const stored = localStorage.getItem('scroll_' + key + '_' + index);
+        if (stored !== null) {
+            const pos = parseInt(stored, 10);
+            if (!isNaN(pos)) app.scrollTop = pos;
+        } else {
+            app.scrollTop = 0;
+        }
+    } catch (e) {
+        app.scrollTop = 0;
+    }
+
+    // زر الرجوع يعيد إلى قائمة التبويبات للقسم
+    const backBtn = document.getElementById('backBtn');
+    backBtn.classList.remove('hidden');
+    backBtn.onclick = () => Views.showCategory(key);
 },
 
     reader: async (d)=>{
@@ -358,6 +421,48 @@ showCategory: async (key) => {
         </div>`;
         
         app.innerHTML = html;
+    }
+    ,
+
+    /**
+     * صفحة المفضلة: تعرض العناصر التي قام المستخدم بحفظها كمفضلة.
+     * حالياً هي مجرد صفحة بسيطة بدون دعم فعلي لحفظ العناصر،
+     * ويمكن تطويرها لاحقاً لإظهار قائمة بالعناصر المفضلة عند توفرها في localStorage.
+     */
+    favorites: () => {
+        document.getElementById('titleEl').innerText = 'المفضلة';
+        const app = document.getElementById('app');
+        let html = `<div class="fade-in">
+            <h3 style="margin-bottom:16px;font-size:1.1rem">العناصر المفضلة</h3>`;
+        // محاولة قراءة قائمة المفضلات من localStorage
+        let favs = [];
+        try {
+            const stored = localStorage.getItem('favorites');
+            if (stored) favs = JSON.parse(stored);
+        } catch (e) {}
+        if (Array.isArray(favs) && favs.length > 0) {
+            html += `<div class="list-group">`;
+            favs.forEach(item => {
+                // لكل عنصر، عرض عنوانه وتوفير رابط للقراءة حسب خصائصه
+                const payload = {};
+                if (item.title) payload.title = item.title;
+                if (item.id) payload.id = item.id;
+                if (item.categoryKey) payload.categoryKey = item.categoryKey;
+                if (item.groupIndex !== undefined) payload.groupIndex = item.groupIndex;
+                const payloadStr = JSON.stringify(payload);
+                html += `<div class="list-tile" data-action="open-reader" data-payload='${payloadStr}'>
+                    <span>${item.title}</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted)"><path d="M15 19l-7-7 7-7"/></svg>
+                </div>`;
+            });
+            html += `</div>`;
+        } else {
+            html += `<div class="card" style="text-align:center; padding:20px; color:var(--text-muted)">
+                لا توجد عناصر مفضلة حتى الآن
+            </div>`;
+        }
+        html += `</div>`;
+        if (app) app.innerHTML = html;
     }
 };
 
