@@ -1,706 +1,0 @@
-{
-  "الجمعة": [
-    {
-      "type": "card",
-      "content": "يوم صالح لشراء واقتناء وخياطة الثياب والملابس.",
-      "style": "bg-green-50 border-green-100 text-green-800"
-    },
-    {
-      "type": "card",
-      "content": "يستحب فيه الغُسل قبل الزوال لصلاة الجمعة . المقاربة الزوجية اليوم بعد فضيلة صلاة العصر مستحبة والمولود الحاصل عالم مشهور. من أراد الحجامة فليحتجم الجمعة عصراً. تقليم الأظافر الجمعة يدر الرزق ويؤمن من الجذام والبرص والعمى.",
-      "style": "bg-green-50 border-green-100 text-green-800"
-    },
-    {
-      "type": "card",
-      "content": "🕛 وقت الاستخارة: جيدة عند طلوع الشمس وعند العشاء و رديئة ،عند العصر والضحى.",
-      "style": "bg-blue-50 border-blue-100 text-blue-800"
-    },
-    {
-      "type": "copyable",
-      "title": "۞ تسبيح اليوم:",
-      "text": "اللهم صل على محمد وآل محمد وعجل فرجهم وأهلك عدوهم ، يا الله يا هو",
-      "subtext": "العدد ( ١٠٠ ) مرة."
-    },
-    {
-      "type": "card",
-      "content": "۞ زيارة اليوم : زيارة مولانا صاحب العصر والزمان روحي فداه .",
-      "style": "bg-white border-emerald-100 text-gray-800"
-    },
-    {
-      "type": "details",
-      "title": "۞ صلاة اليوم",
-      "content": "ركعتين من غير صلاة الجمعة تقرأ في الأولى : سورة إبراهيم وفي الثانية سورة الحجر ، لم يصبه فقر أبداً ولا جنون ولا بلوى ."
-    },
-    {
-      "type": "copyable",
-      "title": "📿 ذكر اليوم:",
-      "text": "يا نور",
-      "subtext": "العدد ( ٢٥٦ ) مرة."
-    }
-  ],
-  "السبت": [
-    {
-      "type": "card",
-      "content": "المقاربة الزوجية ( ليلة الأحد ) غير جيدة والمولود فيه يكون مشؤوما ثقيلاً.",
-      "style": "bg-red-50 border-red-100 text-red-800"
-    },
-    {
-      "type": "card",
-      "content": "يصح فيه ( الحجامة والفصد) .",
-      "style": "bg-green-50 border-green-100 text-green-800"
-    },
-    {
-      "type": "card",
-      "content": "يكره تقليم الاظافر يوم السبت (من قلم أظافره يوم السبت وقعت الآكلة في أصابعه).",
-      "style": "bg-red-50 border-red-100 text-red-800"
-    },
-    {
-      "type": "card",
-      "content": "لا يصلح فيه شراء أو خياطة أو أقتناء الثياب والملابس.",
-      "style": "bg-red-50 border-red-100 text-red-800"
-    },
-    {
-      "type": "card",
-      "content": "🕛 وقت الاستخارة: جيدة إلى الضحى والعصر و رديئة ،عند الزوال والعشاء .",
-      "style": "bg-blue-50 border-blue-100 text-blue-800"
-    },
-    {
-      "type": "copyable",
-      "title": "۞ تسبيح اليوم:",
-      "text": "يا رب العالمين يا رحمن يا رحيم",
-      "subtext": "( ١٠٠ ) مرة."
-    },
-    {
-      "type": "card",
-      "content": "۞ مناجاة اليوم: المحبين + الشاكين + المطيعين لله",
-      "style": "bg-white border-emerald-100 text-gray-800"
-    },
-    {
-      "type": "card",
-      "content": "۞ زيارة اليوم : زيارة النبي الاكرم صلى الله عليه وآله وسلم .",
-      "style": "bg-white border-emerald-100 text-gray-800"
-    },
-    {
-      "type": "details",
-      "title": "۞ صلاة اليوم",
-      "content": "أربع ركعات يقرأ في كل ركعة فاتحة الكتاب وقل هو الله أحد وآية الكرسي كتبه الله عزَّ وجلَّ في درجة النبيين والشهداء والصالحين وحسن أولئك رفيقا ."
-    },
-    {
-      "type": "copyable",
-      "title": "📿 ذكر اليوم:",
-      "text": "يا غني",
-      "subtext": "العدد ( ١٠٦٠ ) مرة‏"
-    }
-  ],
-  "الأحد": [
-    {
-      "type": "card",
-      "content": "المقاربة الزوجية جيدة والمولود الحاصل حافظا لکتاب الله.",
-      "style": "bg-green-50 border-green-100 text-green-800"
-    },
-    {
-      "type": "card",
-      "content": "استحباب الحجامة . بعد الزوال .",
-      "style": "bg-green-50 border-green-100 text-green-800"
-    },
-    {
-      "type": "card",
-      "content": "تقليم الأظافر غير جيد ، ويذهب البركه ، لما روي (من قلم أظافره يوم الأحد ذهبت البركه من يده) .",
-      "style": "bg-red-50 border-red-100 text-red-800"
-    },
-    {
-      "type": "card",
-      "content": "لا يصلح لشراء واقتناء وخياطة الثياب والملابس.",
-      "style": "bg-red-50 border-red-100 text-red-800"
-    },
-    {
-      "type": "card",
-      "content": "🕛 وقت الاستخارة: جيدة عند طلوع الشمس وعند العشاء و رديئة ،عند العصر والضحى",
-      "style": "bg-blue-50 border-blue-100 text-blue-800"
-    },
-    {
-      "type": "copyable",
-      "title": "۞ تسبيح اليوم:",
-      "text": "يا ذا الجلال والاكرام يا واحد يا أحد",
-      "subtext": "( ١٠٠ ) مرة."
-    },
-    {
-      "type": "card",
-      "content": "۞ مناجاة اليوم: الخائفين + المتوسلين",
-      "style": "bg-white border-emerald-100 text-gray-800"
-    },
-    {
-      "type": "card",
-      "content": "۞ زيارة اليوم : زيارة أَميرِ المُؤمِنين والسيدة الزَّهراءِ سَلامُ الله عَليهما",
-      "style": "bg-white border-emerald-100 text-gray-800"
-    },
-    {
-      "type": "details",
-      "title": "۞ صلاة اليوم",
-      "content": "من صلى يوم الأحد أربع ركعات يقرء في كل ركعة بفاتحة الكتاب وآمن الرسول مرة، كتب الله بعدد كل نصراني ونصرانية حسنات، وأعطاه الله تعالى ثواب الف نبي، وكتب له ألف حجة وعمرة."
-    },
-    {
-      "type": "copyable",
-      "title": "📿 ذكر اليوم:",
-      "text": "يا فتاح",
-      "subtext": "العدد (٤٨٩) مرة"
-    }
-  ],
-  "الإثنين": [
-    {
-      "type": "card",
-      "content": "يوم الإثنين يوم مناسب لتقليم الأظافر و له بركات من قبيل أنه يصبح قارئ و حافظ لكتاب الله الكريم.",
-      "style": "bg-green-50 border-green-100 text-green-800"
-    },
-    {
-      "type": "card",
-      "content": "يصلح للمقاربة الزوجية . ليلاً",
-      "style": "bg-green-50 border-green-100 text-green-800"
-    },
-    {
-      "type": "card",
-      "content": "من أراد الحجامة فليحتجم يوم الاثنين .",
-      "style": "bg-green-50 border-green-100 text-green-800"
-    },
-    {
-      "type": "card",
-      "content": "يوم صالح لشراء واقتناء وخياطة الثياب والملابس.",
-      "style": "bg-green-50 border-green-100 text-green-800"
-    },
-    {
-      "type": "card",
-      "content": "🕛 وقت الاستخارة: جيدة ، حين طلوع الشمس والمغرب والعشاء",
-      "style": "bg-blue-50 border-blue-100 text-blue-800"
-    },
-    {
-      "type": "copyable",
-      "title": "۞ تسبيح اليوم:",
-      "text": "يا قاضي الحاجات يا فرد يا صمد",
-      "subtext": "( ١٠٠ مرة )"
-    },
-    {
-      "type": "card",
-      "content": "۞ مناجاة اليوم: المفتقرين + الراجين",
-      "style": "bg-white border-emerald-100 text-gray-800"
-    },
-    {
-      "type": "card",
-      "content": "۞ زيارة اليوم : زيارة الإمامين الحسن والحسين عليهما السلام",
-      "style": "bg-white border-emerald-100 text-gray-800"
-    },
-    {
-      "type": "details",
-      "title": "۞ صلاة اليوم",
-      "content": "عشر ركعات يقرأ في كل ركعة فاتحة الكتاب وقل هو الله أحد عشراً جعل اللّه له إلى يوم الجمعة نوراً يضي منه الموقف حتى يغبطه به جميع من خلق الله في ذلك اليوم ."
-    },
-    {
-      "type": "copyable",
-      "title": "📿 ذكر اليوم:",
-      "text": "يا لطيف",
-      "subtext": "العدد ( ١٢٩ ) مرة"
-    }
-  ],
-  "الثلاثاء": [
-    {
-      "type": "card",
-      "content": "يوم صالح للحجامة والفصد.",
-      "style": "bg-green-50 border-green-100 text-green-800"
-    },
-    {
-      "type": "card",
-      "content": "يوم صالح للمقاربة الزوجية .",
-      "style": "bg-green-50 border-green-100 text-green-800"
-    },
-    {
-      "type": "card",
-      "content": "التقليم غير جيد ، يخاف الهلاك ، للمروي عن النبي( صلى الله عليه وآله): (من قلم أظافره يوم الثلاثاء يخاف الهلاك عليه).",
-      "style": "bg-red-50 border-red-100 text-red-800"
-    },
-    {
-      "type": "card",
-      "content": "لا يصلح لشراء وخياطة واقتناء الثياب والملابس .",
-      "style": "bg-red-50 border-red-100 text-red-800"
-    },
-    {
-      "type": "card",
-      "content": "🕛 وقت الاستخارة: جيدة عند الظهر والعشاء و رديئة عند الضحى والعصر",
-      "style": "bg-blue-50 border-blue-100 text-blue-800"
-    },
-    {
-      "type": "copyable",
-      "title": "۞ تسبيح اليوم:",
-      "text": "يا أرحم الراحمين يا حي يا قيوم",
-      "subtext": "العدد ( ١٠٠ ) مرة."
-    },
-    {
-      "type": "card",
-      "content": "۞ مناجاة اليوم: الراغبين + العارفين .",
-      "style": "bg-white border-emerald-100 text-gray-800"
-    },
-    {
-      "type": "card",
-      "content": "۞ زيارة اليوم : زيارة علي بن الحسين السجاد ومحمد بن علي الباقر ، وجعفر بن محمد الصادق",
-      "style": "bg-white border-emerald-100 text-gray-800"
-    },
-    {
-      "type": "details",
-      "title": "۞ صلاة اليوم",
-      "content": "ست ركعات يقرأ في كل ركعة فاتحة الكتاب وآية : آمن الرسول إلى آخرها وسورة إذا زلزلت مرة واحدة غفر الله له ذنوبه حتى يخرج منها كيوم ولدته أمّه."
-    },
-    {
-      "type": "copyable",
-      "title": "📿 ذكر اليوم:",
-      "text": "يا قابض",
-      "subtext": "العدد ( ٩٠٣ ) مرة"
-    }
-  ],
-  "الأربعاء": [
-    {
-      "type": "card",
-      "content": "توقّوا الحجامة والنورة يوم الاربعاء . ليلاً",
-      "style": "bg-red-50 border-red-100 text-red-800"
-    },
-    {
-      "type": "card",
-      "content": "المقاربة الزوجية جيدة و المولود الحاصل عالم من العلماء أو حاكم من الحكام .",
-      "style": "bg-green-50 border-green-100 text-green-800"
-    },
-    {
-      "type": "card",
-      "content": "خياطة أو أقتناء أو شراء الثياب والملابس فيها منفعة.",
-      "style": "bg-green-50 border-green-100 text-green-800"
-    },
-    {
-      "type": "card",
-      "content": "تقليم الأظافر يوم الاربعاء غير جيد ويورث سوء الخلق (يصير سيء الخلق).",
-      "style": "bg-red-50 border-red-100 text-red-800"
-    },
-    {
-      "type": "card",
-      "content": "🕛 وقت الاستخارة: جيدة عند الزوال و رديئة ،عند العصر.",
-      "style": "bg-blue-50 border-blue-100 text-blue-800"
-    },
-    {
-      "type": "copyable",
-      "title": "۞ تسبيح اليوم:",
-      "text": "يا حي القيوم يا حنان يا منان",
-      "subtext": "العدد ( ١٠٠ ) مرة."
-    },
-    {
-      "type": "card",
-      "content": "۞ مناجاة اليوم: الذاكرين + الشاكرين",
-      "style": "bg-white border-emerald-100 text-gray-800"
-    },
-    {
-      "type": "card",
-      "content": "۞ زيارة اليوم : زيارة الائمة عليهم السلام موسى بن جعفر الكاظم، وعلي بن موسى الرضا، ومحمد علي جواد ، وعلي بن محمد الهادي ( عليهم السلام جميعاً)",
-      "style": "bg-white border-emerald-100 text-gray-800"
-    },
-    {
-      "type": "details",
-      "title": "۞ صلاة اليوم",
-      "content": "أربع ركعات يقرأ في كل ركعة الحمد والاخلاص وسورة القدر مرة واحدة تاب الله عليه من كل ذنب وزوّجه بزوجة من الحور العين."
-    },
-    {
-      "type": "copyable",
-      "title": "📿 ذكر اليوم:",
-      "text": "يا متعال",
-      "subtext": "العدد ( ٥٤١ ) مرة"
-    }
-  ],
-  "الخميس": [
-    {
-      "type": "card",
-      "content": "المقاربة الزوجية ليلة الجمعة جيدة. والمولود فيه مرزوقاً طويل العمر.",
-      "style": "bg-green-50 border-green-100 text-green-800"
-    },
-    {
-      "type": "card",
-      "content": "يوم الخميس يوم مناسب جداً لتقليم الأظافر ، يجلب صحة الجسم و شفاء للآلام..",
-      "style": "bg-green-50 border-green-100 text-green-800"
-    },
-    {
-      "type": "card",
-      "content": "استحباب الحجامة والفصد يوم الخميس.",
-      "style": "bg-green-50 border-green-100 text-green-800"
-    },
-    {
-      "type": "card",
-      "content": "يصلح فيه شراء أو خياطة أو أقتناء الثياب والملابس بل وردت أن فيها منفعة .",
-      "style": "bg-green-50 border-green-100 text-green-800"
-    },
-    {
-      "type": "card",
-      "content": "🕛 وقت الاستخارة: جيدة عند طلوع الشمس وعند العشاء و رديئة ،عند العصر والمغرب",
-      "style": "bg-blue-50 border-blue-100 text-blue-800"
-    },
-    {
-      "type": "copyable",
-      "title": "۞ تسبيح اليوم:",
-      "text": "لا اله الا الله الملك الحق المبين ، يا ذا الجلال والاكرام",
-      "subtext": "العدد ( ١٠٠ ) مرة."
-    },
-    {
-      "type": "card",
-      "content": "۞ مناجاة اليوم: الزاهدين + المعتصمين",
-      "style": "bg-white border-emerald-100 text-gray-800"
-    },
-    {
-      "type": "card",
-      "content": "۞ زيارة اليوم : زيارة الإمام الحسن بن علي العسكري عليهما السلام .",
-      "style": "bg-white border-emerald-100 text-gray-800"
-    },
-    {
-      "type": "details",
-      "title": "۞ صلاة اليوم",
-      "content": "اربع ركعات ، يقرأ في الاولى الحمد مرة و احدى عشر مرة قل هو الله احد ، و في الثانية الحمد مرة واحدى و عشرين مرة قل هو الله احد ، و في الثالثة الحمد مرة و واحدى و ثلاثين مرة قل هو الله احد ، و في الرابعة الحمد مرة و احدى و اربعين مرة قل هو الله احد..."
-    },
-    {
-      "type": "copyable",
-      "title": "📿 ذكر اليوم:",
-      "text": "يا رزاق",
-      "subtext": "٣٠٨ مرة"
-    }
-  ],
-  "المناجاة الخمس عشرة": [
-    {
-      "type": "audio",
-      "title": "مناجاة التائبين",
-      "url": "https://shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/ooo13w88n93y.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "مناجاة الشاكين",
-      "url": "https://shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/xsc2pjijopwh.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "مناجاة الخائفين",
-      "url": "https://shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/wxd55umyeb0j.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "مناجاة الراجين",
-      "url": "https://shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/smd8w0wkk1ut.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "مناجاة الراغبين",
-      "url": "https://shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/krn1mtnex9pg.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "مناجاة الشاكرين",
-      "url": "https://shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/rqgsi180c95h.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "مناجاة المطيعين لله",
-      "url": "https://shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/dkewntv844en.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "مناجاة المريدين",
-      "url": "https://shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/evo3qhfar821.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "مناجاة المحبين",
-      "url": "https://shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/kkwzkdw21gfp.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "مناجاة المتوسلين",
-      "url": "https://shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/gxni80636gbh.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "مناجاة المفتقرين",
-      "url": "https://shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/foemdaja6c88.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "مناجاة العارفين",
-      "url": "https://shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/vqvw6yp3ha36.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "مناجاة الذاكرين",
-      "url": "https://shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/ind9dmnkdbw5.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "مناجاة المعتصمين",
-      "url": "https://shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/rxprxn0g3dt5.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "مناجاة الزاهدين",
-      "url": "https://shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/tk33q7ozib7m.mp3"
-    }
-  ],
-  "ادعية": [
-    {
-      "type": "audio",
-      "title": "دعاء الافتتاح",
-      "url": "https://shiavoice.com/media/edaie/asdarat/mohammed_elhujerat/rewa3_ed3ie/miy1dpzafhkv.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء العهد",
-      "url": "https://shiavoice.com/media/edaie/asdarat/mohammed_elhujerat/rewa3_ed3ie/fhbi9i9shpgd.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء أهل الثغور",
-      "url": "https://www.shiavoice.com/media/edaie/du3a_ehl_elthkur/jepy2pyfz5a4.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الندبة",
-      "url": "https://shiavoice.com/media/edaie/du3a_nudbe/yhd6n5mgs3nu.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء السمات",
-      "url": "https://shiavoice.com/media/edaie/du3a_elsmat/rn1rakrexfsi.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء العديلة",
-      "url": "https://www.shiavoice.com/media/edaie/du3a_el3edile/uvo716hvupeo.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الصباح",
-      "url": "https://shiavoice.com/media/edaie/du3a_seba7/rja2ng536rix.mp3"
-    }
-  ],
-  "ادعية الجمعة": [
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 1",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-1.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 2",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-2.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 3",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-3.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 4",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-4.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 5",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-5.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 6",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-6.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 7",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-7.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 8",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-8.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 9",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-9.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 10",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-10.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 11",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-11.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 12",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-12.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 13",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-13.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 14",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-14.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 15",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-15.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 16",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-16.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 17",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-17.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 18",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-18.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 19",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-19.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 20",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-20.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 21",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-21.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 22",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-22.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 23",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-23.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 24",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-24.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 25",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-25.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 26",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-26.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 27",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-27.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 28",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-28.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 29",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-29.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 30",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-30.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 31",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-31.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 32",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-32.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 33",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-33.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 34",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-34.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 35",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-35.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 36",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-36.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 37",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-37.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 38",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-38.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 39",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-39.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 40",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-40.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 41",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-41.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 42",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-42.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 43",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-43.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 44",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-44.mp3"
-    },
-    {
-      "type": "audio",
-      "title": "دعاء الجمعة 45",
-      "url": "https://alsaydalsadr.app/wp-content/uploads/2024/11/adeyhmp3-45.mp3"
-    }
-  ]
-}

@@ -2,146 +2,1136 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#134e4a">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>خزائن النور</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <!-- Custom overrides for sidebar navigation and layout -->
-    <link rel="stylesheet" href="custom.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" />
-<link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icons/icon-192.png">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700&family=Noto+Sans+Arabic:wght@400;600&family=Reem+Kufi:wght@400;600&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- PWA manifest and theme color -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom styles moved to an external file -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<!-- Disable context menu to prevent copying and text selection globally -->
+<body class="selection:bg-indigo-500 selection:text-white" oncontextmenu="return false">
 
-    <header>
-        <div class="brand">
-            <button id="backBtn" class="btn-icon hidden">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M19 12H5M12 19l-7-7 7-7"/>
-                </svg>
-            </button>
-            <span id="titleEl" style="font-weight:800">خزائن النور</span>
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+    <!-- Search overlay and container: hidden by default. The overlay darkens the screen
+         and the container holds the search input and results. -->
+    <div id="search-overlay" class="hidden fixed inset-0 bg-black bg-opacity-60 z-40"></div>
+    <div id="search-container" class="hidden fixed inset-0 z-50 flex flex-col items-center justify-start p-4 overflow-y-auto">
+        <div class="w-full max-w-3xl mt-12">
+            <div class="relative">
+                <input id="search-input" type="text" placeholder="ابحث في العناوين..." class="w-full rounded-full py-2.5 pr-4 pl-10 bg-gray-800 text-gray-200 focus:outline-none border border-gray-600 placeholder-gray-500" />
+                <!-- Close icon inside the input -->
+                <i id="close-search" class="fa-solid fa-xmark absolute top-3 right-4 text-gray-400 cursor-pointer hover:text-red-400"></i>
+                <!-- Search icon inside the input to visually indicate purpose -->
+                <i class="fa-solid fa-search absolute top-3 left-4 text-gray-500"></i>
+            </div>
+            <!-- Results list will be populated dynamically -->
+            <div id="search-results" class="mt-4 space-y-2"></div>
         </div>
+    </div>
 
-        <div id="readerTools" class="hidden" style="display:flex; align-items:center; gap:4px;">
-            <button class="btn-icon" data-action="font-size" data-delta="2" style="width:36px; height:36px;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-            </button>
-            <button class="btn-icon" data-action="font-size" data-delta="-2" style="width:36px; height:36px;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-            </button>
-            <button class="btn-icon" data-action="open-font-modal" data-target="reader" style="width:36px; height:36px; font-weight:bold; font-family:serif; font-size:1rem">
-                Aa
-            </button>
+    <!-- Settings button moved into header; removed the floating gear button -->
 
-            <button class="btn-icon" data-action="toggle-verse-search" style="width:36px; height:36px;" title="بحث داخل السورة">
-                <span class="material-symbols-outlined" style="font-size:20px;">search</span>
-            </button>
-            <button class="btn-icon" data-action="toggle-focus" style="width:36px; height:36px;" title="وضع التركيز">
-                <span class="material-symbols-outlined" style="font-size:20px;">center_focus_strong</span>
+    <nav class="sidebar flex flex-col p-6" id="sidebar">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl text-indigo-300 font-bold">الإعدادات</h2>
+            <button onclick="toggleSidebar()" class="text-white hover:text-indigo-400 transition">
+                <i class="fa-solid fa-times text-2xl"></i>
             </button>
         </div>
 
-        <div style="display:flex; align-items:center; gap:2px;">
-            <button id="searchToggle" class="btn-icon" data-action="toggle-search" style="width:40px; height:40px;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-            </button>
-            <button id="menuToggle" class="btn-icon" data-action="toggle-sidebar" style="width:40px; height:40px;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
-            </button>
-            <button id="themeToggle" class="btn-icon" style="width:40px; height:40px;">
-            <svg id="sunIcon" class="hidden" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="5"/><path d="M12 1v2"/><path d="M12 21v2"/><path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4.22 19.78l1.42-1.42"/><path d="M18.36 5.64l1.42-1.42"/>
-            </svg>
-            <svg id="moonIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-        </button>
+        <div class="space-y-2">
+             <div class="setting-group">
+                <label class="block text-xs text-gray-400 mb-2 font-bold"><i class="fa-solid fa-font mb-1 ml-1"></i> خط التطبيق</label>
+                <select id="appFontSelect" onchange="changeAppFont(this.value)" class="w-full rounded p-2 text-sm focus:outline-none focus:border-indigo-500 transition">
+                    <option value="'Amiri', serif" selected>الأميري (افتراضي)</option>
+                    <option value="'Tajawal', sans-serif">تجوال (عصري)</option>
+                    <option value="'Noto Sans Arabic', sans-serif">نسخ (رسمي)</option>
+                    <option value="'Reem Kufi', sans-serif">كوفي (فني)</option>
+                </select>
+            </div>
+            <div class="setting-group">
+                <label class="block text-xs text-gray-400 mb-2 font-bold"><i class="fa-solid fa-book-open mb-1 ml-1"></i> خط القراءة</label>
+                <select id="readingFontSelect" onchange="changeReadingFont(this.value)" class="w-full rounded p-2 text-sm focus:outline-none focus:border-indigo-500 transition">
+                    <!-- Ensure the Amiri font is selected by default for reading text -->
+                    <option value="'Amiri', serif" selected>الأميري (افتراضي)</option>
+                    <option value="'Tajawal', sans-serif">تجوال</option>
+                    <option value="'Scheherazade New', serif">شهرزاد</option>
+                    <option value="'Noto Sans Arabic', sans-serif">نسخ</option>
+                </select>
+            </div>
+            <div class="setting-group">
+                <label class="block text-xs text-gray-400 mb-2 font-bold"><i class="fa-solid fa-text-height mb-1 ml-1"></i> حجم نص القراءة</label>
+                <div class="flex items-center gap-2">
+                    <button onclick="changeFontSize(-0.1)" class="control-btn w-10 h-10 rounded hover:opacity-80 transition flex items-center justify-center text-lg">-</button>
+                    <span id="fontSizeDisplay" class="text-sm font-bold flex-1 text-center text-white">100%</span>
+                    <button onclick="changeFontSize(0.1)" class="control-btn w-10 h-10 rounded hover:opacity-80 transition flex items-center justify-center text-lg">+</button>
+                </div>
+            </div>
+            <hr class="border-white/10 my-4">
+            <ul class="space-y-2 text-lg">
+                <li><a href="#" class="block p-3 rounded-lg hover:bg-white/10 transition flex items-center gap-3 text-sm"><i class="fa-solid fa-share-nodes w-5"></i> مشاركة التطبيق</a></li>
+                <li><a href="#" class="block p-3 rounded-lg hover:bg-white/10 transition flex items-center gap-3 text-sm"><i class="fa-solid fa-circle-info w-5"></i> حول خزائن النور</a></li>
+            </ul>
+        </div>
+        <div class="mt-auto pt-4 border-t border-white/10 text-center text-xs text-gray-500">الإصدار 1.5.0</div>
+    </nav>
+
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-40 px-4 py-3 glass-panel rounded-b-2xl mx-2 mt-2 transition-all duration-300">
+        <div class="flex justify-between items-center h-10">
+            <!-- Container for theme, search and settings buttons -->
+            <div class="flex items-center gap-3">
+                <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-white/10 transition active:scale-95 text-white">
+                    <i id="themeIcon" class="fa-regular fa-moon text-xl theme-toggle-icon"></i>
+                </button>
+                <!-- Search toggle button: opens the smart search overlay. -->
+                <button onclick="toggleSearch()" class="p-2 rounded-full hover:bg-white/10 transition active:scale-95 text-white">
+                    <i class="fa-solid fa-search text-xl"></i>
+                </button>
+                <!-- Settings toggle button: opens the sidebar. Appears only on the main page since the header is hidden on other pages. -->
+                <button onclick="toggleSidebar()" class="p-2 rounded-full hover:bg-white/10 transition active:scale-95 text-white" title="الإعدادات">
+                    <i class="fa-solid fa-gear text-xl"></i>
+                </button>
+            </div>
+            <!-- App title centered between buttons -->
+            <h1 class="text-3xl main-title text-center text-transparent bg-clip-text bg-gradient-to-t from-indigo-200 to-white drop-shadow-md pb-1 flex-1">
+                خزائن النور
+            </h1>
         </div>
     </header>
 
-    <div id="sidebar" class="sidebar">
-        <div class="sidebar-header">
-            <!-- Changed the sidebar title from categories to a general menu -->
-            <h3>القائمة</h3>
-            <button class="btn-icon" data-action="toggle-sidebar">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
-            </button>
-        </div>
-        <!-- Replace the category list with a vertical navigation menu -->
-        <div class="sidebar-content">
-            <div class="sidebar-item" data-action="navigate" data-page="home" data-target="home">
-                <span class="material-symbols-outlined" aria-hidden="true">home</span>
-                <span style="margin-right:8px">الرئيسية</span>
+    <main id="main-container" class="container mx-auto px-4 pt-24 pb-12 max-w-5xl relative min-h-screen transition-all duration-300">
+        
+        <div id="main-view" class="fade-in">
+            <div class="glass-card rounded-2xl p-6 mb-8 text-center relative overflow-hidden group w-full">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-indigo-400 to-transparent opacity-50"></div>
+                <h2 id="hijri-date" class="text-2xl md:text-3xl font-bold text-white mb-2" style="font-family: 'Amiri', serif;">جاري تحميل التاريخ...</h2>
+                <p id="today-occasion-text" class="text-indigo-200 text-sm md:text-base opacity-80">خير ما نبدأ به الصلاة على محمد وآل محمد</p>
             </div>
-            <!-- استبدل عنصر المكتبة بزر المفضلة -->
-            <div class="sidebar-item" data-action="navigate" data-page="favorites" data-target="favorites">
-                <span class="material-symbols-outlined" aria-hidden="true">favorite</span>
-                <span style="margin-right:8px">المفضلة</span>
-            </div>
-            <div class="sidebar-item" data-action="navigate" data-page="tasbih" data-target="tasbih">
-                <span class="material-symbols-outlined" aria-hidden="true">toll</span>
-                <span style="margin-right:8px">المسبحة</span>
-            </div>
-            <div class="sidebar-item" data-action="navigate" data-page="settings" data-target="settings">
-                <span class="material-symbols-outlined" aria-hidden="true">settings</span>
-                <span style="margin-right:8px">الإعدادات</span>
-            </div>
-        </div>
-    </div>
-    <div id="sidebarOverlay" class="modal-overlay" data-action="toggle-sidebar-overlay"></div>
-    <div id="searchBar" class="search-container hidden">
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="ابحث عن دعاء، زيارة، أو عمل..." oninput="Views.handleSearch(this.value)">
-            <button class="btn-icon" data-action="toggle-search">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
-            </button>
-        </div>
-        <div id="searchResults" class="search-results"></div>
-    </div>
-    <main id="app"></main>
 
-    <div id="fontModal" class="modal-overlay" data-action="close-font-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modalTitle">اختر الخط</h3>
-                <button class="btn-icon" data-action="close-font-modal">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
+            <div class="grid grid-cols-3 gap-3 md:gap-5">
+                
+                <div onclick="openPage('daily-deeds-view')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group">
+                    <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center mb-2 md:mb-3 shadow-lg group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-calendar-day text-lg md:text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-sm md:text-xl text-gray-100 whitespace-nowrap card-title">أعمال الأيام</h3>
+                    <p class="text-[10px] md:text-xs text-gray-400 mt-1 hidden md:block">من الجمعة للخميس</p>
+                </div>
+
+                <!-- Favorites card: replaces the unused أعمال الشهر card -->
+                <div onclick="openPage('favorites-view')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group">
+                    <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center mb-2 md:mb-3 shadow-lg group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-star text-lg md:text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-sm md:text-xl text-gray-100 whitespace-nowrap card-title">المفضلة</h3>
+                    <p class="text-[10px] md:text-xs text-gray-400 mt-1 hidden md:block">العناصر المفضلة</p>
+                </div>
+
+                <!-- Card for supplications: add click handler to open the duaa list view -->
+                <div onclick="openPage('duaa-list-view')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group">
+                    <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center mb-2 md:mb-3 shadow-lg group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-hands-praying text-lg md:text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-sm md:text-xl text-gray-100 whitespace-nowrap card-title">الأدعية</h3>
+                    <p class="text-[10px] md:text-xs text-gray-400 mt-1 hidden md:block">الأدعية العامة</p>
+                </div>
+
+                <div onclick="openPage('ziyarat-categories-view')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group">
+                    <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-rose-400 to-pink-600 flex items-center justify-center mb-2 md:mb-3 shadow-lg group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-mosque text-lg md:text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-sm md:text-xl text-gray-100 whitespace-nowrap card-title">الـزيـارات</h3>
+                    <p class="text-[10px] md:text-xs text-gray-400 mt-1 hidden md:block">زيارات المعصومين</p>
+                </div>
+
+ <div onclick="openPage('months-view')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group">
+    <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-purple-400 to-fuchsia-600 flex items-center justify-center mb-2 md:mb-3 shadow-lg group-hover:scale-110 transition duration-300">
+        <i class="fa-regular fa-calendar-check text-lg md:text-2xl text-white"></i>
+    </div>
+    <h3 class="text-sm md:text-xl text-gray-100 whitespace-nowrap card-title">المناسبات</h3>
+    <p class="text-[10px] md:text-xs text-gray-400 mt-1 hidden md:block">الولادات والوفيات</p>
+</div>
+
+
+
+                <div class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group">
+                    <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center mb-2 md:mb-3 shadow-lg group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-headphones-simple text-lg md:text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-sm md:text-xl text-gray-100 whitespace-nowrap card-title">الصوتيات</h3>
+                    <p class="text-[10px] md:text-xs text-gray-400 mt-1 hidden md:block">استماع بجودة عالية</p>
+                </div>
+
+                <div class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group">
+                    <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-slate-400 to-gray-600 flex items-center justify-center mb-2 md:mb-3 shadow-lg group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-book-open-reader text-lg md:text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-sm md:text-xl text-gray-100 whitespace-nowrap card-title">خطب الجمعة</h3>
+                    <p class="text-[10px] md:text-xs text-gray-400 mt-1 hidden md:block">الجمعة والمحاضرات</p>
+                </div>
+
+                <div class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group">
+                    <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-red-400 to-rose-600 flex items-center justify-center mb-2 md:mb-3 shadow-lg group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-hand-holding-droplet text-lg md:text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-sm md:text-xl text-gray-100 whitespace-nowrap card-title">المسبحة</h3>
+                    <p class="text-[10px] md:text-xs text-gray-400 mt-1 hidden md:block">عداد الأذكار</p>
+                </div>
+
+                <div onclick="openPage('monajat-list-view')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group">
+                    <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-violet-400 to-purple-700 flex items-center justify-center mb-2 md:mb-3 shadow-lg group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-hands-holding-child text-lg md:text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-sm md:text-xl text-gray-100 whitespace-nowrap card-title">المناجاة 15</h3>
+                    <p class="text-[10px] md:text-xs text-gray-400 mt-1 hidden md:block">المناجاة الخمسة عشر</p>
+                </div>
+
+                <div onclick="openPage('baqiat-categories-view')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group">
+                    <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-teal-400 to-emerald-600 flex items-center justify-center mb-2 md:mb-3 shadow-lg group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-leaf text-lg md:text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-sm md:text-xl text-gray-100 whitespace-nowrap card-title">الباقيات</h3>
+                    <p class="text-[10px] md:text-xs text-gray-400 mt-1 hidden md:block">الأعمال المستحبة</p>
+                </div>
+
+                <div onclick="openPage('nahj-categories-view')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group">
+                    <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-amber-500 to-yellow-700 flex items-center justify-center mb-2 md:mb-3 shadow-lg group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-scroll text-lg md:text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-sm md:text-xl text-gray-100 whitespace-nowrap card-title">نهج البلاغة</h3>
+                    <p class="text-[10px] md:text-xs text-gray-400 mt-1 hidden md:block">خطب الإمام علي (ع)</p>
+                </div>
+
+                <div onclick="openPage('rights-categories-view')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group">
+                    <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-lime-400 to-green-700 flex items-center justify-center mb-2 md:mb-3 shadow-lg group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-scale-balanced text-lg md:text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-sm md:text-xl text-gray-100 whitespace-nowrap card-title">رسالة الحقوق</h3>
+                    <p class="text-[10px] md:text-xs text-gray-400 mt-1 hidden md:block">رسالة الحقوق</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="daily-deeds-view" class="hidden fade-in">
+            <div class="flex items-center mb-6 pt-2">
+                <button onclick="closePage()" class="p-3 rounded-full hover:bg-white/10 transition text-white">
+                    <i class="fa-solid fa-arrow-right text-xl"></i>
                 </button>
+                <h2 class="text-2xl font-bold text-indigo-200 mr-4 card-title">أعمال الأيام</h2>
             </div>
-            <div class="modal-body">
-                <div id="fontList" class="fonts-grid"></div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                
+                <div onclick="openDayPage('يوم الجمعة', 'Friday')" class="glass-card rounded-xl p-6 text-center cursor-pointer hover:bg-white/10 transition group">
+                    <h3 class="text-xl md:text-2xl font-bold text-white card-title">الجمعة</h3>
+                </div>
+
+                <div onclick="openDayPage('يوم السبت', 'Saturday')" class="glass-card rounded-xl p-6 text-center cursor-pointer hover:bg-white/10 transition group">
+                    <h3 class="text-xl md:text-2xl font-bold text-white card-title">السبت</h3>
+                </div>
+
+                <div onclick="openDayPage('يوم الأحد', 'Sunday')" class="glass-card rounded-xl p-6 text-center cursor-pointer hover:bg-white/10 transition group">
+                    <h3 class="text-xl md:text-2xl font-bold text-white card-title">الأحد</h3>
+                </div>
+
+                <div onclick="openDayPage('يوم الاثنين', 'Monday')" class="glass-card rounded-xl p-6 text-center cursor-pointer hover:bg-white/10 transition group">
+                    <h3 class="text-xl md:text-2xl font-bold text-white card-title">الاثنين</h3>
+                </div>
+
+                <div onclick="openDayPage('يوم الثلاثاء', 'Tuesday')" class="glass-card rounded-xl p-6 text-center cursor-pointer hover:bg-white/10 transition group">
+                    <h3 class="text-xl md:text-2xl font-bold text-white card-title">الثلاثاء</h3>
+                </div>
+
+                <div onclick="openDayPage('يوم الأربعاء', 'Wednesday')" class="glass-card rounded-xl p-6 text-center cursor-pointer hover:bg-white/10 transition group">
+                    <h3 class="text-xl md:text-2xl font-bold text-white card-title">الأربعاء</h3>
+                </div>
+
+                <div onclick="openDayPage('يوم الخميس', 'Thursday')" class="glass-card rounded-xl p-6 text-center cursor-pointer hover:bg-white/10 transition group md:col-span-3 lg:col-span-1">
+                    <h3 class="text-xl md:text-2xl font-bold text-white card-title">الخميس</h3>
+                </div>
+
             </div>
         </div>
+<div id="months-view" class="hidden fade-in">
+    <div class="flex items-center mb-6 pt-2">
+        <button onclick="closePage()" class="p-3 rounded-full hover:bg-white/10 transition text-white">
+            <i class="fa-solid fa-arrow-right text-xl"></i>
+        </button>
+        <h2 class="text-2xl font-bold text-indigo-200 mr-4 card-title">أشهر السنة الهجرية</h2>
     </div>
 
-    <!-- Removed the bottom navigation bar entirely; navigation is now handled via the sidebar menu -->
+    <div class="grid grid-cols-3 gap-3 md:gap-5">
+        
+        <div onclick="openMonthOccasions('muharram')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group flex flex-col justify-center items-center">
+            <h3 class="text-lg md:text-2xl font-bold text-white card-title">محرم</h3>
+            <span class="text-xs text-purple-300 mt-1 opacity-70">الشهر 1</span>
+        </div>
 
-    <script src="js/db.js"></script>
-    <script src="js/days.js"></script>
-    <script src="js/audio.js"></script>
-    <script src="js/quran.js"></script>
-    <script src="js/occasions.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/play.js"></script>
-    <script src="js/actions.js"></script>
-    <script src="js/start.js"></script>
+        <div onclick="openMonthOccasions('safar')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group flex flex-col justify-center items-center">
+            <h3 class="text-lg md:text-2xl font-bold text-white card-title">صفر</h3>
+            <span class="text-xs text-purple-300 mt-1 opacity-70">الشهر 2</span>
+        </div>
+
+        <div onclick="openMonthOccasions('rabi1')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group flex flex-col justify-center items-center">
+            <h3 class="text-lg md:text-2xl font-bold text-white card-title">ربيع الأول</h3>
+            <span class="text-xs text-purple-300 mt-1 opacity-70">الشهر 3</span>
+        </div>
+
+        <div onclick="openMonthOccasions('rabi2')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group flex flex-col justify-center items-center">
+            <h3 class="text-lg md:text-2xl font-bold text-white card-title">ربيع الثاني</h3>
+            <span class="text-xs text-purple-300 mt-1 opacity-70">الشهر 4</span>
+        </div>
+
+        <div onclick="openMonthOccasions('jumada1')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group flex flex-col justify-center items-center">
+            <h3 class="text-lg md:text-2xl font-bold text-white card-title">جمادى الأول</h3>
+            <span class="text-xs text-purple-300 mt-1 opacity-70">الشهر 5</span>
+        </div>
+
+        <div onclick="openMonthOccasions('jumada2')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group flex flex-col justify-center items-center">
+            <h3 class="text-lg md:text-2xl font-bold text-white card-title">جمادى الآخر</h3>
+            <span class="text-xs text-purple-300 mt-1 opacity-70">الشهر 6</span>
+        </div>
+
+        <div onclick="openMonthOccasions('rajab')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group flex flex-col justify-center items-center">
+            <h3 class="text-lg md:text-2xl font-bold text-white card-title">رجب</h3>
+            <span class="text-xs text-purple-300 mt-1 opacity-70">الشهر 7</span>
+        </div>
+
+        <div onclick="openMonthOccasions('shaban')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group flex flex-col justify-center items-center">
+            <h3 class="text-lg md:text-2xl font-bold text-white card-title">شعبان</h3>
+            <span class="text-xs text-purple-300 mt-1 opacity-70">الشهر 8</span>
+        </div>
+
+        <div onclick="openMonthOccasions('ramadan')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group flex flex-col justify-center items-center border border-yellow-500/30 bg-yellow-500/5">
+            <h3 class="text-lg md:text-2xl font-bold text-yellow-200 card-title">رمضان</h3>
+            <span class="text-xs text-yellow-100 mt-1 opacity-70">الشهر 9</span>
+        </div>
+
+        <div onclick="openMonthOccasions('shawwal')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group flex flex-col justify-center items-center">
+            <h3 class="text-lg md:text-2xl font-bold text-white card-title">شوال</h3>
+            <span class="text-xs text-purple-300 mt-1 opacity-70">الشهر 10</span>
+        </div>
+
+        <div onclick="openMonthOccasions('dhulqada')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group flex flex-col justify-center items-center">
+            <h3 class="text-lg md:text-2xl font-bold text-white card-title">ذو القعدة</h3>
+            <span class="text-xs text-purple-300 mt-1 opacity-70">الشهر 11</span>
+        </div>
+
+        <div onclick="openMonthOccasions('dhulhijjah')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group flex flex-col justify-center items-center">
+            <h3 class="text-lg md:text-2xl font-bold text-white card-title">ذو الحجة</h3>
+            <span class="text-xs text-purple-300 mt-1 opacity-70">الشهر 12</span>
+        </div>
+
+    </div>
+</div>
+
+        <div id="day-details-view" class="hidden fade-in">
+            <div class="flex items-center mb-6 pt-2">
+                <button onclick="closeDayPage()" class="p-3 rounded-full hover:bg-white/10 transition text-white">
+                    <i class="fa-solid fa-arrow-right text-xl"></i>
+                </button>
+                <h2 id="day-title" class="text-2xl font-bold text-indigo-200 mr-4 card-title">تفاصيل اليوم</h2>
+            </div>
+
+            <div id="day-content-container" class="pb-10 min-h-[300px]">
+                <div class="text-center mt-10 text-gray-400">
+                    <i class="fa-solid fa-circle-notch animate-spin text-3xl mb-3"></i>
+                    <p>جاري تحميل البيانات...</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="occasions-details-view" class="hidden fade-in">
+            <div class="flex items-center mb-6 pt-2">
+                <button onclick="closeOccasionsPage()" class="p-3 rounded-full hover:bg-white/10 transition text-white">
+                    <i class="fa-solid fa-arrow-right text-xl"></i>
+                </button>
+                <h2 id="month-occasions-title" class="text-2xl font-bold text-indigo-200 mr-4 card-title">مناسبات الشهر</h2>
+            </div>
+
+            <div id="occasions-container" class="space-y-3 pb-10 min-h-[300px]">
+                <div class="text-center mt-10 text-gray-400">
+                    <i class="fa-solid fa-circle-notch animate-spin text-3xl mb-3"></i>
+                    <p>جاري تحميل المناسبات...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Supplications list view -->
+        <div id="duaa-list-view" class="hidden fade-in">
+            <div class="flex items-center mb-6 pt-2">
+                <button onclick="closePage()" class="p-3 rounded-full hover:bg-white/10 transition text-white">
+                    <i class="fa-solid fa-arrow-right text-xl"></i>
+                </button>
+                <h2 class="text-2xl font-bold text-indigo-200 mr-4 card-title">الأدعية</h2>
+            </div>
+            <div id="duaa-list-container" class="space-y-3 pb-10 min-h-[300px]">
+                <!-- Loading placeholder; replaced when data is loaded -->
+                <div class="text-center mt-10 text-gray-400">
+                    <i class="fa-solid fa-circle-notch animate-spin text-3xl mb-3"></i>
+                    <p>جاري تحميل الأدعية...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Supplication details view -->
+        <div id="duaa-details-view" class="hidden fade-in">
+            <!-- Unified header for supplication details: split into two groups for better alignment -->
+            <div class="flex flex-wrap justify-between items-center gap-2 mb-6 pt-2">
+                <!-- Left group: back button, favorite button, and title -->
+                <div class="flex items-center gap-2 flex-wrap">
+                    <button onclick="closeDuaaDetails()" class="p-3 rounded-full hover:bg-white/10 transition text-white" title="رجوع">
+                        <i class="fa-solid fa-arrow-right text-xl"></i>
+                    </button>
+                    <button id="duaa-fav-btn" class="p-3 rounded-full hover:bg-white/10 transition text-yellow-400" title="أضف إلى المفضلة">
+                        <i class="fa-regular fa-star text-xl"></i>
+                    </button>
+                    <h2 id="duaa-title" class="text-2xl font-bold text-indigo-200 card-title truncate">عنوان الدعاء</h2>
+                </div>
+                <!-- Right group: reading controls -->
+                <div class="flex items-center gap-2 flex-wrap">
+                    <button onclick="changeFontSize(0.1)" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تكبير الخط">
+                        <i class="fa-solid fa-plus text-sm"></i>
+                    </button>
+                    <button onclick="changeFontSize(-0.1)" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تصغير الخط">
+                        <i class="fa-solid fa-minus text-sm"></i>
+                    </button>
+                    <select onchange="changeReadingFont(this.value)" class="rounded bg-transparent border border-gray-500 text-sm px-2 py-1 focus:outline-none focus:border-indigo-500 transition">
+                        <option value="'Amiri', serif">الأميري</option>
+                        <option value="'Tajawal', sans-serif">تجوال</option>
+                        <option value="'Scheherazade New', serif">شهرزاد</option>
+                        <option value="'Noto Sans Arabic', sans-serif">نسخ</option>
+                    </select>
+                    <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="الوضع الليلي/النهاري">
+                        <i class="fa-regular fa-moon text-sm theme-toggle-icon"></i>
+                    </button>
+                    <button onclick="copyCurrentText('duaa-content-container')" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="نسخ النص">
+                        <i class="fa-regular fa-copy text-sm"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Content container for supplication text -->
+            <div id="duaa-content-container" class="space-y-4 pb-10 min-h-[300px]"></div>
+        </div>
+
+        <!-- Monajat list view (15 monajat) -->
+        <div id="monajat-list-view" class="hidden fade-in">
+            <div class="flex items-center mb-6 pt-2">
+                <button onclick="closePage()" class="p-3 rounded-full hover:bg-white/10 transition text-white">
+                    <i class="fa-solid fa-arrow-right text-xl"></i>
+                </button>
+                <h2 class="text-2xl font-bold text-indigo-200 mr-4 card-title">المناجاة</h2>
+            </div>
+            <div id="monajat-list-container" class="space-y-3 pb-10 min-h-[300px]">
+                <!-- Loading placeholder; replaced when data is loaded -->
+                <div class="text-center mt-10 text-gray-400">
+                    <i class="fa-solid fa-circle-notch animate-spin text-3xl mb-3"></i>
+                    <p>جاري تحميل المناجاة...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Monajat details view -->
+        <div id="monajat-details-view" class="hidden fade-in">
+            <!-- Unified header for monajat details: split into left and right groups -->
+            <div class="flex flex-wrap justify-between items-center gap-2 mb-6 pt-2">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <button onclick="closeMonajatDetails()" class="p-3 rounded-full hover:bg-white/10 transition text-white" title="رجوع">
+                        <i class="fa-solid fa-arrow-right text-xl"></i>
+                    </button>
+                    <button id="monajat-fav-btn" class="p-3 rounded-full hover:bg-white/10 transition text-yellow-400" title="أضف إلى المفضلة">
+                        <i class="fa-regular fa-star text-xl"></i>
+                    </button>
+                    <h2 id="monajat-title" class="text-2xl font-bold text-indigo-200 card-title truncate">عنوان المناجاة</h2>
+                </div>
+                <div class="flex items-center gap-2 flex-wrap">
+                    <button onclick="changeFontSize(0.1)" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تكبير الخط">
+                        <i class="fa-solid fa-plus text-sm"></i>
+                    </button>
+                    <button onclick="changeFontSize(-0.1)" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تصغير الخط">
+                        <i class="fa-solid fa-minus text-sm"></i>
+                    </button>
+                    <select onchange="changeReadingFont(this.value)" class="rounded bg-transparent border border-gray-500 text-sm px-2 py-1 focus:outline-none focus:border-indigo-500 transition">
+                        <option value="'Amiri', serif">الأميري</option>
+                        <option value="'Tajawal', sans-serif">تجوال</option>
+                        <option value="'Scheherazade New', serif">شهرزاد</option>
+                        <option value="'Noto Sans Arabic', sans-serif">نسخ</option>
+                    </select>
+                    <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="الوضع الليلي/النهاري">
+                        <i class="fa-regular fa-moon text-sm theme-toggle-icon"></i>
+                    </button>
+                    <button onclick="copyCurrentText('monajat-content-container')" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="نسخ النص">
+                        <i class="fa-regular fa-copy text-sm"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="monajat-content-container" class="space-y-4 pb-10 min-h-[300px]"></div>
+        </div>
+
+        <!-- Baqiat categories view (الباقيات الصالحات) -->
+        <div id="baqiat-categories-view" class="hidden fade-in">
+            <div class="flex items-center mb-6 pt-2">
+                <button onclick="closePage()" class="p-3 rounded-full hover:bg-white/10 transition text-white">
+                    <i class="fa-solid fa-arrow-right text-xl"></i>
+                </button>
+                <h2 class="text-2xl font-bold text-indigo-200 mr-4 card-title">الباقيات الصالحات</h2>
+            </div>
+            <div id="baqiat-categories-container" class="space-y-3 pb-10 min-h-[300px]">
+                <div class="text-center mt-10 text-gray-400">
+                    <i class="fa-solid fa-circle-notch animate-spin text-3xl mb-3"></i>
+                    <p>جاري التحميل...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Baqiat items view -->
+        <div id="baqiat-items-view" class="hidden fade-in">
+            <div class="flex items-center mb-6 pt-2">
+                <button onclick="backToBaqiatCategories()" class="p-3 rounded-full hover:bg-white/10 transition text-white">
+                    <i class="fa-solid fa-arrow-right text-xl"></i>
+                </button>
+                <h2 id="baqiat-category-title" class="text-2xl font-bold text-indigo-200 mr-4 card-title">قسم الباقيات</h2>
+            </div>
+            <div id="baqiat-items-container" class="space-y-3 pb-10 min-h-[300px]"></div>
+        </div>
+
+        <!-- Baqiat details view -->
+        <div id="baqiat-details-view" class="hidden fade-in">
+            <!-- Unified header for Baqiat details: split into two groups -->
+            <div class="flex flex-wrap justify-between items-center gap-2 mb-6 pt-2">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <button onclick="backToBaqiatItems()" class="p-3 rounded-full hover:bg-white/10 transition text-white" title="رجوع">
+                        <i class="fa-solid fa-arrow-right text-xl"></i>
+                    </button>
+                    <button id="baqiat-fav-btn" class="p-3 rounded-full hover:bg-white/10 transition text-yellow-400" title="أضف إلى المفضلة">
+                        <i class="fa-regular fa-star text-xl"></i>
+                    </button>
+                    <h2 id="baqiat-item-title" class="text-2xl font-bold text-indigo-200 card-title truncate">عنوان الباقية</h2>
+                </div>
+                <div class="flex items-center gap-2 flex-wrap">
+                    <button onclick="changeFontSize(0.1)" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تكبير الخط">
+                        <i class="fa-solid fa-plus text-sm"></i>
+                    </button>
+                    <button onclick="changeFontSize(-0.1)" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تصغير الخط">
+                        <i class="fa-solid fa-minus text-sm"></i>
+                    </button>
+                    <select onchange="changeReadingFont(this.value)" class="rounded bg-transparent border border-gray-500 text-sm px-2 py-1 focus:outline-none focus:border-indigo-500 transition">
+                        <option value="'Amiri', serif">الأميري</option>
+                        <option value="'Tajawal', sans-serif">تجوال</option>
+                        <option value="'Scheherazade New', serif">شهرزاد</option>
+                        <option value="'Noto Sans Arabic', sans-serif">نسخ</option>
+                    </select>
+                    <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="الوضع الليلي/النهاري">
+                        <i class="fa-regular fa-moon text-sm theme-toggle-icon"></i>
+                    </button>
+                    <button onclick="copyCurrentText('baqiat-content-container')" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="نسخ النص">
+                        <i class="fa-regular fa-copy text-sm"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="baqiat-content-container" class="space-y-4 pb-10 min-h-[300px]"></div>
+        </div>
+
+        <!-- Rights categories view (رسالة الحقوق) -->
+        <div id="rights-categories-view" class="hidden fade-in">
+            <div class="flex items-center mb-6 pt-2">
+                <button onclick="closePage()" class="p-3 rounded-full hover:bg-white/10 transition text-white">
+                    <i class="fa-solid fa-arrow-right text-xl"></i>
+                </button>
+                <h2 class="text-2xl font-bold text-indigo-200 mr-4 card-title">رسالة الحقوق</h2>
+            </div>
+            <div id="rights-categories-container" class="space-y-3 pb-10 min-h-[300px]">
+                <div class="text-center mt-10 text-gray-400">
+                    <i class="fa-solid fa-circle-notch animate-spin text-3xl mb-3"></i>
+                    <p>جاري التحميل...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rights items view -->
+        <div id="rights-items-view" class="hidden fade-in">
+            <div class="flex items-center mb-6 pt-2">
+                <button onclick="backToRightsCategories()" class="p-3 rounded-full hover:bg-white/10 transition text-white">
+                    <i class="fa-solid fa-arrow-right text-xl"></i>
+                </button>
+                <h2 id="rights-category-title" class="text-2xl font-bold text-indigo-200 mr-4 card-title">قسم الحقوق</h2>
+            </div>
+            <div id="rights-items-container" class="space-y-3 pb-10 min-h-[300px]"></div>
+        </div>
+
+        <!-- Rights details view -->
+        <div id="rights-details-view" class="hidden fade-in">
+            <!-- Unified header for rights details: split into two groups -->
+            <div class="flex flex-wrap justify-between items-center gap-2 mb-6 pt-2">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <button onclick="backToRightsItems()" class="p-3 rounded-full hover:bg-white/10 transition text-white" title="رجوع">
+                        <i class="fa-solid fa-arrow-right text-xl"></i>
+                    </button>
+                    <button id="rights-fav-btn" class="p-3 rounded-full hover:bg-white/10 transition text-yellow-400" title="أضف إلى المفضلة">
+                        <i class="fa-regular fa-star text-xl"></i>
+                    </button>
+                    <h2 id="rights-item-title" class="text-2xl font-bold text-indigo-200 card-title truncate">عنوان الحق</h2>
+                </div>
+                <div class="flex items-center gap-2 flex-wrap">
+                    <button onclick="changeFontSize(0.1)" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تكبير الخط">
+                        <i class="fa-solid fa-plus text-sm"></i>
+                    </button>
+                    <button onclick="changeFontSize(-0.1)" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تصغير الخط">
+                        <i class="fa-solid fa-minus text-sm"></i>
+                    </button>
+                    <select onchange="changeReadingFont(this.value)" class="rounded bg-transparent border border-gray-500 text-sm px-2 py-1 focus:outline-none focus:border-indigo-500 transition">
+                        <option value="'Amiri', serif">الأميري</option>
+                        <option value="'Tajawal', sans-serif">تجوال</option>
+                        <option value="'Scheherazade New', serif">شهرزاد</option>
+                        <option value="'Noto Sans Arabic', sans-serif">نسخ</option>
+                    </select>
+                    <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="الوضع الليلي/النهاري">
+                        <i class="fa-regular fa-moon text-sm theme-toggle-icon"></i>
+                    </button>
+                    <button onclick="copyCurrentText('rights-content-container')" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="نسخ النص">
+                        <i class="fa-regular fa-copy text-sm"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="rights-content-container" class="space-y-4 pb-10 min-h-[300px]"></div>
+        </div>
+
+        <!-- Ziyarat categories view (الزيارات) -->
+        <div id="ziyarat-categories-view" class="hidden fade-in">
+            <div class="flex items-center mb-6 pt-2">
+                <button onclick="closePage()" class="p-3 rounded-full hover:bg-white/10 transition text-white">
+                    <i class="fa-solid fa-arrow-right text-xl"></i>
+                </button>
+                <h2 class="text-2xl font-bold text-indigo-200 mr-4 card-title">الزيارات</h2>
+            </div>
+            <div id="ziyarat-categories-container" class="space-y-3 pb-10 min-h-[300px]">
+                <div class="text-center mt-10 text-gray-400">
+                    <i class="fa-solid fa-circle-notch animate-spin text-3xl mb-3"></i>
+                    <p>جاري التحميل...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ziyarat items view -->
+        <div id="ziyarat-items-view" class="hidden fade-in">
+            <div class="flex items-center mb-6 pt-2">
+                <button onclick="backToZiyaratCategories()" class="p-3 rounded-full hover:bg-white/10 transition text-white">
+                    <i class="fa-solid fa-arrow-right text-xl"></i>
+                </button>
+                <h2 id="ziyarat-category-title" class="text-2xl font-bold text-indigo-200 mr-4 card-title">قسم الزيارات</h2>
+            </div>
+            <div id="ziyarat-items-container" class="space-y-3 pb-10 min-h-[300px]"></div>
+        </div>
+
+        <!-- Ziyarat details view -->
+        <div id="ziyarat-details-view" class="hidden fade-in">
+            <!-- Unified header for ziyarat details: split into two groups -->
+            <div class="flex flex-wrap justify-between items-center gap-2 mb-6 pt-2">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <button onclick="backToZiyaratItems()" class="p-3 rounded-full hover:bg-white/10 transition text-white" title="رجوع">
+                        <i class="fa-solid fa-arrow-right text-xl"></i>
+                    </button>
+                    <button id="ziyarat-fav-btn" class="p-3 rounded-full hover:bg-white/10 transition text-yellow-400" title="أضف إلى المفضلة">
+                        <i class="fa-regular fa-star text-xl"></i>
+                    </button>
+                    <h2 id="ziyarat-item-title" class="text-2xl font-bold text-indigo-200 card-title truncate">عنوان الزيارة</h2>
+                </div>
+                <div class="flex items-center gap-2 flex-wrap">
+                    <button onclick="changeFontSize(0.1)" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تكبير الخط">
+                        <i class="fa-solid fa-plus text-sm"></i>
+                    </button>
+                    <button onclick="changeFontSize(-0.1)" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تصغير الخط">
+                        <i class="fa-solid fa-minus text-sm"></i>
+                    </button>
+                    <select onchange="changeReadingFont(this.value)" class="rounded bg-transparent border border-gray-500 text-sm px-2 py-1 focus:outline-none focus:border-indigo-500 transition">
+                        <option value="'Amiri', serif">الأميري</option>
+                        <option value="'Tajawal', sans-serif">تجوال</option>
+                        <option value="'Scheherazade New', serif">شهرزاد</option>
+                        <option value="'Noto Sans Arabic', sans-serif">نسخ</option>
+                    </select>
+                    <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="الوضع الليلي/النهاري">
+                        <i class="fa-regular fa-moon text-sm theme-toggle-icon"></i>
+                    </button>
+                    <button onclick="copyCurrentText('ziyarat-content-container')" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="نسخ النص">
+                        <i class="fa-regular fa-copy text-sm"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="ziyarat-content-container" class="space-y-4 pb-10 min-h-[300px]"></div>
+        </div>
+
+        <!-- Nahj categories view (نهج البلاغة) -->
+        <div id="nahj-categories-view" class="hidden fade-in">
+            <div class="flex items-center mb-6 pt-2">
+                <button onclick="closePage()" class="p-3 rounded-full hover:bg-white/10 transition text-white">
+                    <i class="fa-solid fa-arrow-right text-xl"></i>
+                </button>
+                <h2 class="text-2xl font-bold text-indigo-200 mr-4 card-title">نهج البلاغة</h2>
+            </div>
+            <div id="nahj-categories-container" class="space-y-3 pb-10 min-h-[300px]">
+                <div class="text-center mt-10 text-gray-400">
+                    <i class="fa-solid fa-circle-notch animate-spin text-3xl mb-3"></i>
+                    <p>جاري التحميل...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nahj items view -->
+        <div id="nahj-items-view" class="hidden fade-in">
+            <div class="flex items-center mb-6 pt-2">
+                <button onclick="backToNahjCategories()" class="p-3 rounded-full hover:bg-white/10 transition text-white">
+                    <i class="fa-solid fa-arrow-right text-xl"></i>
+                </button>
+                <h2 id="nahj-category-title" class="text-2xl font-bold text-indigo-200 mr-4 card-title">قسم نهج البلاغة</h2>
+            </div>
+            <div id="nahj-items-container" class="space-y-3 pb-10 min-h-[300px]"></div>
+        </div>
+
+        <!-- Nahj details view -->
+        <div id="nahj-details-view" class="hidden fade-in">
+            <!-- Unified header for Nahj details: split into two groups -->
+            <div class="flex flex-wrap justify-between items-center gap-2 mb-6 pt-2">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <button onclick="backToNahjItems()" class="p-3 rounded-full hover:bg-white/10 transition text-white" title="رجوع">
+                        <i class="fa-solid fa-arrow-right text-xl"></i>
+                    </button>
+                    <button id="nahj-fav-btn" class="p-3 rounded-full hover:bg-white/10 transition text-yellow-400" title="أضف إلى المفضلة">
+                        <i class="fa-regular fa-star text-xl"></i>
+                    </button>
+                    <h2 id="nahj-item-title" class="text-2xl font-bold text-indigo-200 card-title truncate">عنوان النص</h2>
+                </div>
+                <div class="flex items-center gap-2 flex-wrap">
+                    <button onclick="changeFontSize(0.1)" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تكبير الخط">
+                        <i class="fa-solid fa-plus text-sm"></i>
+                    </button>
+                    <button onclick="changeFontSize(-0.1)" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تصغير الخط">
+                        <i class="fa-solid fa-minus text-sm"></i>
+                    </button>
+                    <select onchange="changeReadingFont(this.value)" class="rounded bg-transparent border border-gray-500 text-sm px-2 py-1 focus:outline-none focus:border-indigo-500 transition">
+                        <option value="'Amiri', serif">الأميري</option>
+                        <option value="'Tajawal', sans-serif">تجوال</option>
+                        <option value="'Scheherazade New', serif">شهرزاد</option>
+                        <option value="'Noto Sans Arabic', sans-serif">نسخ</option>
+                    </select>
+                    <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="الوضع الليلي/النهاري">
+                        <i class="fa-regular fa-moon text-sm theme-toggle-icon"></i>
+                    </button>
+                    <button onclick="copyCurrentText('nahj-content-container')" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="نسخ النص">
+                        <i class="fa-regular fa-copy text-sm"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="nahj-content-container" class="space-y-4 pb-10 min-h-[300px]"></div>
+        </div>
+
+        <!-- Favorites view -->
+        <div id="favorites-view" class="hidden fade-in">
+            <div class="flex items-center mb-6 pt-2">
+                <button onclick="closePage()" class="p-3 rounded-full hover:bg-white/10 transition text-white">
+                    <i class="fa-solid fa-arrow-right text-xl"></i>
+                </button>
+                <h2 class="text-2xl font-bold text-indigo-200 mr-4 card-title">المفضلة</h2>
+            </div>
+            <div id="favorites-container" class="space-y-2 pb-10 min-h-[300px]"></div>
+        </div>
+    </main>
+
+    <footer class="text-center py-6 text-gray-500 text-sm relative z-10">
+        <p>&copy; 2024 تطبيق خزائن النور</p>
+    </footer>
+
+    <script type="text/plain" id="legacy-script">
+        let currentFontSizeScale = 1;
+
+        // Navigation Functions
+        function openPage(pageId) {
+            document.getElementById('main-header').classList.add('hidden-header');
+            const mainContainer = document.getElementById('main-container');
+            mainContainer.classList.remove('pt-24');
+            mainContainer.classList.add('pt-12');
+            document.getElementById('main-view').classList.add('hidden');
+            document.getElementById(pageId).classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+function closePage() {
+    document.getElementById('main-header').classList.remove('hidden-header');
+    const mainContainer = document.getElementById('main-container');
+    mainContainer.classList.add('pt-24');
+    mainContainer.classList.remove('pt-12');
+    
+    // إخفاء جميع الصفحات الفرعية
+    document.getElementById('daily-deeds-view').classList.add('hidden');
+    document.getElementById('months-view').classList.add('hidden'); // تأكد من وجود هذا السطر
+    document.getElementById('occasions-details-view').classList.add('hidden'); // وهذا السطر للحيطة
+    // إخفاء صفحات الأدعية
+    const duaaListView = document.getElementById('duaa-list-view');
+    const duaaDetailsView = document.getElementById('duaa-details-view');
+    if (duaaListView) duaaListView.classList.add('hidden');
+    if (duaaDetailsView) duaaDetailsView.classList.add('hidden');
+
+    // إخفاء صفحات المناجاة
+    const monajatListView = document.getElementById('monajat-list-view');
+    const monajatDetailsView = document.getElementById('monajat-details-view');
+    if (monajatListView) monajatListView.classList.add('hidden');
+    if (monajatDetailsView) monajatDetailsView.classList.add('hidden');
+
+    // إخفاء صفحات الباقيات
+    const baqiatCategoriesView = document.getElementById('baqiat-categories-view');
+    const baqiatItemsView = document.getElementById('baqiat-items-view');
+    const baqiatDetailsView = document.getElementById('baqiat-details-view');
+    if (baqiatCategoriesView) baqiatCategoriesView.classList.add('hidden');
+    if (baqiatItemsView) baqiatItemsView.classList.add('hidden');
+    if (baqiatDetailsView) baqiatDetailsView.classList.add('hidden');
+
+    // إخفاء صفحات الحقوق
+    const rightsCategoriesView = document.getElementById('rights-categories-view');
+    const rightsItemsView = document.getElementById('rights-items-view');
+    const rightsDetailsView = document.getElementById('rights-details-view');
+    if (rightsCategoriesView) rightsCategoriesView.classList.add('hidden');
+    if (rightsItemsView) rightsItemsView.classList.add('hidden');
+    if (rightsDetailsView) rightsDetailsView.classList.add('hidden');
+
+    // إخفاء صفحات الزيارات
+    const ziyaratCategoriesView = document.getElementById('ziyarat-categories-view');
+    const ziyaratItemsView = document.getElementById('ziyarat-items-view');
+    const ziyaratDetailsView = document.getElementById('ziyarat-details-view');
+    if (ziyaratCategoriesView) ziyaratCategoriesView.classList.add('hidden');
+    if (ziyaratItemsView) ziyaratItemsView.classList.add('hidden');
+    if (ziyaratDetailsView) ziyaratDetailsView.classList.add('hidden');
+
+    // إخفاء صفحات نهج البلاغة
+    const nahjCategoriesView = document.getElementById('nahj-categories-view');
+    const nahjItemsView = document.getElementById('nahj-items-view');
+    const nahjDetailsView = document.getElementById('nahj-details-view');
+    if (nahjCategoriesView) nahjCategoriesView.classList.add('hidden');
+    if (nahjItemsView) nahjItemsView.classList.add('hidden');
+    if (nahjDetailsView) nahjDetailsView.classList.add('hidden');
+
+    document.getElementById('main-view').classList.remove('hidden');
+}
+
+
+
+        async function updateDates() {
+            const now = new Date();
+            
+            // خيارات الحصول على التاريخ الهجري بدقة
+            const hijriOptions = {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+                calendar: 'islamic-umalqura',
+                numberingSystem: 'latn' // نستخدم الأرقام اللاتينية للمعالجة البرمجية
+            };
+
+            try {
+                // الحصول على التاريخ الهجري كأجزاء
+                const formatter = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura', hijriOptions);
+                const parts = formatter.formatToParts(now);
+                
+                let day, month, year;
+                parts.forEach(part => {
+                    if (part.type === 'day') day = parseInt(part.value);
+                    if (part.type === 'month') month = part.value;
+                    if (part.type === 'year') year = part.value;
+                });
+
+                // عرض التاريخ الهجري في البطاقة
+                const hijriDateString = `${day} ${month} ${year} هـ`;
+                document.getElementById('hijri-date').textContent = hijriDateString;
+
+                // جلب المناسبة
+                await fetchTodayOccasion(day, month);
+
+            } catch (e) {
+                console.error("خطأ في حساب التاريخ الهجري:", e);
+                document.getElementById('hijri-date').textContent = "التاريخ الهجري غير متاح";
+            }
+        }
+
+        async function fetchTodayOccasion(currentDay, currentMonth) {
+            const occasionTextElement = document.getElementById('today-occasion-text');
+            try {
+                const response = await fetch('UP/monasbat.json');
+                if (!response.ok) return;
+                const data = await response.json();
+
+                // 1. البحث عن مناسبة اليوم
+                const monthData = data.find(m => m.tab_title === currentMonth);
+                if (monthData) {
+                    const todayOccasion = monthData.items.find(item => {
+                        const dayNum = parseInt(item.title1);
+                        return dayNum === currentDay;
+                    });
+
+                    if (todayOccasion) {
+                        occasionTextElement.innerHTML = `<span class="text-yellow-300 font-bold">مناسبة اليوم:</span> ${todayOccasion.title2.replace(/\n/g, ' ')}`;
+                        return;
+                    }
+                }
+
+                // 2. إذا لم توجد مناسبة اليوم، نبحث عن المناسبة القادمة
+                let nextOccasion = null;
+                
+                // البحث في بقية أيام الشهر الحالي
+                if (monthData) {
+                    nextOccasion = monthData.items.find(item => parseInt(item.title1) > currentDay);
+                }
+
+                // إذا لم نجد في الشهر الحالي، نبحث في الأشهر التالية
+                if (!nextOccasion) {
+                    const monthOrder = [
+                        "محرم", "صفر", "ربيع الأول", "ربيع الثاني", "جمادى الأول", "جمادى الآخر",
+                        "رجب", "شعبان", "رمضان", "شوال", "ذو القعدة", "ذو الحجة"
+                    ];
+                    const currentMonthIndex = monthOrder.indexOf(currentMonth);
+                    
+                    for (let i = 1; i <= 12; i++) {
+                        const nextMonthIndex = (currentMonthIndex + i) % 12;
+                        const nextMonthName = monthOrder[nextMonthIndex];
+                        const nextMonthData = data.find(m => m.tab_title === nextMonthName);
+                        
+                        if (nextMonthData && nextMonthData.items.length > 0) {
+                            nextOccasion = nextMonthData.items[0];
+                            nextOccasion.monthName = nextMonthName;
+                            break;
+                        }
+                    }
+                }
+
+                if (nextOccasion) {
+                    const displayMonth = nextOccasion.monthName || currentMonth;
+                    occasionTextElement.innerHTML = `<span class="opacity-60">المناسبة القادمة (${nextOccasion.title1} ${displayMonth}):</span> ${nextOccasion.title2.split('\n')[0]}`;
+                } else {
+                    occasionTextElement.textContent = "خير ما نبدأ به الصلاة على محمد وآل محمد";
+                }
+
+            } catch (error) {
+                console.error("خطأ في جلب المناسبات:", error);
+                occasionTextElement.textContent = "خير ما نبدأ به الصلاة على محمد وآل محمد";
+            }
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('themeIcon');
+            body.classList.toggle('light-mode');
+            if (body.classList.contains('light-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun', 'text-yellow-400');
+            } else {
+                icon.classList.remove('fa-sun', 'text-yellow-400');
+                icon.classList.add('fa-moon');
+            }
+        }
+
+        function changeAppFont(fontFamily) {
+            document.documentElement.style.setProperty('--app-font', fontFamily);
+        }
+
+        function changeReadingFont(fontFamily) {
+            document.documentElement.style.setProperty('--reading-font', fontFamily);
+        }
+
+        function changeFontSize(change) {
+            currentFontSizeScale += change;
+            if (currentFontSizeScale < 0.8) currentFontSizeScale = 0.8;
+            if (currentFontSizeScale > 1.6) currentFontSizeScale = 1.6;
+            document.documentElement.style.setProperty('--reading-size-scale', currentFontSizeScale);
+            document.getElementById('fontSizeDisplay').textContent = Math.round(currentFontSizeScale * 100) + '%';
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            updateDates();
+            const body = document.body;
+            if(body.classList.contains('light-mode')) {
+                 document.getElementById('themeIcon').classList.replace('fa-moon', 'fa-sun');
+            }
+        });
+
+        // دالة لفتح صفحة قراءة محتوى اليوم
+        function openDayPage(dayName, fileName) {
+            document.getElementById('daily-deeds-view').classList.add('hidden');
+            const detailsView = document.getElementById('day-details-view');
+            detailsView.classList.remove('hidden');
+            document.getElementById('day-title').textContent = 'أعمال ' + dayName;
+            fetchDayContent(fileName);
+            window.scrollTo(0, 0);
+        }
+
+        // دالة العودة من صفحة التفاصيل إلى قائمة الأيام
+        function closeDayPage() {
+            document.getElementById('day-details-view').classList.add('hidden');
+            document.getElementById('daily-deeds-view').classList.remove('hidden');
+            document.getElementById('day-content-container').innerHTML = `
+                <div class="text-center mt-10 text-gray-400">
+                    <i class="fa-solid fa-circle-notch animate-spin text-3xl mb-3"></i>
+                    <p>جاري تحميل البيانات...</p>
+                </div>`;
+        }
+// خريطة لربط المعرفات في HTML بأسماء الأشهر في ملف JSON
+const monthNameMap = {
+    'muharram': 'محرم',
+    'safar': 'صفر',
+    'rabi1': 'ربيع الأول',
+    'rabi2': 'ربيع الثاني',
+    'jumada1': 'جمادى الأول',
+    'jumada2': 'جمادى الآخر',
+    'rajab': 'رجب',
+    'shaban': 'شعبان',
+    'ramadan': 'رمضان',
+    'shawwal': 'شوال',
+    'dhulqada': 'ذو القعدة',
+    'dhulhijjah': 'ذو الحجة'
+};
+
+// دالة فتح صفحة مناسبات الشهر وجلب البيانات
+async function openMonthOccasions(monthId) {
+    // 1. التبديل بين الواجهات
+    document.getElementById('months-view').classList.add('hidden');
+    document.getElementById('occasions-details-view').classList.remove('hidden');
+    
+    // 2. تحديث العنوان
+    const arabicName = monthNameMap[monthId];
+    document.getElementById('month-occasions-title').textContent = 'مناسبات شهر ' + arabicName;
+    
+    const container = document.getElementById('occasions-container');
+    container.innerHTML = `
+        <div class="text-center mt-10 text-gray-400">
+            <i class="fa-solid fa-circle-notch animate-spin text-3xl mb-3"></i>
+            <p>جاري جلب البيانات...</p>
+        </div>`;
+
+    // 3. جلب البيانات من ملف JSON
+    try {
+        const response = await fetch('UP/monasbat.json');
+        if (!response.ok) throw new Error("لم يتم العثور على الملف");
+        
+        const data = await response.json();
+        
+        // البحث عن الشهر المطلوب
+        const monthData = data.find(m => m.tab_title === arabicName);
+
+        // 4. عرض البيانات
+        container.innerHTML = ''; // مسح مؤشر التحميل
+
+        if (monthData && monthData.items.length > 0) {
+            monthData.items.forEach(item => {
+                // إنشاء بطاقة لكل مناسبة
+                const card = `
+                    <div class="glass-card rounded-xl p-4 flex flex-col items-start text-right border-r-4 border-indigo-500 hover:bg-white/5 transition">
+                        <span class="bg-indigo-500/20 text-indigo-200 px-2 py-1 rounded text-xs font-bold mb-2 inline-block">
+                            <i class="fa-regular fa-calendar ml-1"></i> ${item.title1}
+                        </span>
+                        <p class="text-white text-base leading-relaxed md:text-lg card-title">
+                            ${item.title2.replace(/\n/g, '<br>')}
+                        </p>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        } else {
+            container.innerHTML = `
+                <div class="glass-card p-6 text-center text-gray-400 rounded-xl">
+                    <p>لا توجد مناسبات مسجلة لهذا الشهر.</p>
+                </div>`;
+        }
+
+    } catch (error) {
+        console.error(error);
+        container.innerHTML = `
+            <div class="glass-card p-6 text-center text-red-300 rounded-xl border border-red-500/30">
+                <i class="fa-solid fa-triangle-exclamation text-3xl mb-3"></i>
+                <p>عذراً، حدث خطأ أثناء تحميل البيانات.</p>
+                <p class="text-xs mt-2 opacity-70">تأكد من وجود الملف file/monasbat.json</p>
+            </div>`;
+    }
+    
+    window.scrollTo(0, 0);
+}
+
+// دالة إغلاق صفحة المناسبات والعودة لشبكة الأشهر
+function closeOccasionsPage() {
+    document.getElementById('occasions-details-view').classList.add('hidden');
+    document.getElementById('months-view').classList.remove('hidden');
+}
+
+    </script>
+
+    <!-- Application scripts loaded from external files -->
+    <script src="js/sidebar/sidebar.js"></script>
+    <script src="js/theme/theme.js"></script>
+    <script src="js/settings/settings.js"></script>
+    <script src="js/dates/dates.js"></script>
+    <script src="js/navigation/navigation.js"></script>
+    <script src="js/daily/dayData.js"></script>
+    <script src="js/daily/daily.js"></script>
+    <script src="js/months/months.js"></script>
+    <!-- Preloaded supplications list (titles and file names) -->
+    <script src="js/duaa/duaaList.js"></script>
+    <!-- Supplications logic -->
+    <script src="js/duaa/duaa.js"></script>
+
+    <!-- Preloaded monajat list (titles and file names) -->
+    <script src="js/monajat/monajatList.js"></script>
+    <!-- Monajat logic -->
+    <script src="js/monajat/monajat.js"></script>
+
+    <!-- Preloaded Baqiat categories and items -->
+    <script src="js/baqiat/baqiatTabs.js"></script>
+    <!-- Baqiat logic -->
+    <script src="js/baqiat/baqiat.js"></script>
+    <!-- Preloaded Rights categories and items -->
+    <script src="js/rights/rightsTabs.js"></script>
+    <!-- Rights logic -->
+    <script src="js/rights/rights.js"></script>
+    <!-- Preloaded Ziyarat categories and items -->
+    <script src="js/ziyarat/ziyaratTabs.js"></script>
+    <!-- Ziyarat logic -->
+    <script src="js/ziyarat/ziyarat.js"></script>
+    <!-- Preloaded Nahj categories and items -->
+    <script src="js/nahj/nahjTabs.js"></script>
+    <!-- Nahj logic -->
+    <script src="js/nahj/nahj.js"></script>
+
+    <!-- Favorites logic: handle adding/removing items and listing favorites -->
+    <script src="js/favorites/favorites.js"></script>
+
+    <!-- Search data and logic -->
+    <script src="js/search/searchData.js"></script>
+    <script src="js/search/search.js"></script>
+
+    <!-- Service worker registration -->
+    <script>
+        // Register the service worker once the page has loaded. This ensures
+        // that the service worker does not interfere with the initial
+        // rendering of the application. If registration fails, the error
+        // is logged to the console.
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('sw.js').catch(function(error) {
+                    console.error('Service worker registration failed:', error);
+                });
+            });
+        }
+    </script>
 
 </body>
 </html>

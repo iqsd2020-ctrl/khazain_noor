@@ -1,0 +1,44 @@
+<div class="space-y-4">
+    <div class="glass-card rounded-xl p-5 text-right border-r-4 border-indigo-400">
+        <h3 class="text-lg text-indigo-300 font-bold mb-2"><i class="fa-solid fa-circle-info ml-2"></i>خصائص الأحد</h3>
+        <ul class="list-disc list-inside text-gray-200 leading-loose text-sm space-y-2">
+            <li class="text-green-300">المقاربة الزوجية جيدة (الولد يكون حافظاً لكتاب الله).</li>
+            <li class="text-green-300">يستحب فيه الحجامة بعد الزوال.</li>
+            <li class="text-rose-300">تقليم الأظافر غير جيد (يذهب بالبركة).</li>
+            <li class="text-rose-300">لا يصلح لشراء الملابس الجديدة.</li>
+        </ul>
+    </div>
+
+    <div class="glass-card rounded-xl p-5 text-right">
+        <h3 class="text-lg text-blue-300 font-bold mb-2"><i class="fa-regular fa-clock ml-2"></i>وقت الاستخارة</h3>
+        <p class="reading-text text-lg text-gray-100">
+            جيدة عند طلوع الشمس، وعند العشاء.
+        </p>
+    </div>
+
+    <div class="glass-card rounded-xl p-5 text-right">
+        <h3 class="text-lg text-amber-300 font-bold mb-2"><i class="fa-solid fa-hand-holding-droplet ml-2"></i>تسبيح اليوم (100 مرة)</h3>
+        <p class="reading-text text-xl text-white font-bold text-center py-2">
+            يَا ذَا الْجَلالِ وَالإِكْرَامِ
+        </p>
+    </div>
+
+    <div class="glass-card rounded-xl p-5 text-right">
+        <h3 class="text-lg text-emerald-300 font-bold mb-2"><i class="fa-solid fa-mosque ml-2"></i>زيارة اليوم</h3>
+        <p class="reading-text text-gray-100 leading-loose">
+            زيارة أمير المؤمنين (ع) والسيدة الزهراء (ع).
+        </p>
+    </div>
+
+    <div class="glass-card rounded-xl p-5 text-right">
+        <h3 class="text-lg text-indigo-300 font-bold mb-2"><i class="fa-solid fa-person-praying ml-2"></i>صلاة اليوم</h3>
+        <p class="reading-text text-gray-200 text-sm leading-relaxed">
+            أربع ركعات، يقرأ في كل ركعة الحمد و(آمن الرسول...) مرة واحدة.
+        </p>
+    </div>
+
+    <div class="glass-card rounded-xl p-5 text-right text-center">
+        <h3 class="text-base text-gray-400 mb-1">الذكر الخاص (489 مرة)</h3>
+        <p class="text-2xl font-bold text-white">يَا فَتَّاحُ</p>
+    </div>
+</div>

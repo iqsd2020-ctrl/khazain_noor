@@ -1,0 +1,45 @@
+<div class="space-y-4">
+    <div class="glass-card rounded-xl p-5 text-right border-r-4 border-green-400">
+        <h3 class="text-lg text-green-300 font-bold mb-2"><i class="fa-solid fa-thumbs-up ml-2"></i>مستحبات الاثنين</h3>
+        <ul class="list-disc list-inside text-gray-200 leading-loose text-sm space-y-2">
+            <li>مناسب جداً لتقليم الأظافر (يورث حفظ القرآن).</li>
+            <li>يصلح للمقاربة الزوجية ليلاً.</li>
+            <li>يستحب فيه الحجامة.</li>
+            <li>يوم صالح لشراء وخياطة الثياب.</li>
+        </ul>
+    </div>
+
+    <div class="glass-card rounded-xl p-5 text-right">
+        <h3 class="text-lg text-blue-300 font-bold mb-2"><i class="fa-regular fa-clock ml-2"></i>وقت الاستخارة</h3>
+        <p class="reading-text text-lg text-gray-100">
+            جيدة عند طلوع الشمس، والمغرب، والعشاء.
+        </p>
+    </div>
+
+    <div class="glass-card rounded-xl p-5 text-right">
+        <h3 class="text-lg text-amber-300 font-bold mb-2"><i class="fa-solid fa-hand-holding-droplet ml-2"></i>تسبيح اليوم (100 مرة)</h3>
+        <p class="reading-text text-xl text-white font-bold text-center py-2">
+            يَا قَاضِيَ الْحَاجَاتِ
+        </p>
+    </div>
+
+    <div class="glass-card rounded-xl p-5 text-right">
+        <h3 class="text-lg text-emerald-300 font-bold mb-2"><i class="fa-solid fa-mosque ml-2"></i>زيارة اليوم</h3>
+        <p class="reading-text text-gray-100 leading-loose">
+            زيارة الإمامين الحسن والحسين (عليهما السلام).
+        </p>
+    </div>
+
+    <div class="glass-card rounded-xl p-5 text-right">
+        <h3 class="text-lg text-indigo-300 font-bold mb-2"><i class="fa-solid fa-person-praying ml-2"></i>صلاة اليوم</h3>
+        <p class="reading-text text-gray-200 text-sm leading-relaxed">
+            عشر ركعات، يقرأ في كل ركعة الحمد و(قل هو الله أحد) عشراً.
+            <br><span class="text-xs opacity-70">الثواب: يجعل الله له نوراً يضيء منه الموقف يوم القيامة.</span>
+        </p>
+    </div>
+
+    <div class="glass-card rounded-xl p-5 text-right text-center">
+        <h3 class="text-base text-gray-400 mb-1">الذكر الخاص (129 مرة)</h3>
+        <p class="text-2xl font-bold text-white">يَا لَطِيفُ</p>
+    </div>
+</div>

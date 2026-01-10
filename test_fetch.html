@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head><meta charset="UTF-8"><title>Test Fetch Duaa</title></head>
+<body>
+<script>
+fetch('duaa.json').then(resp => {
+  document.body.innerHTML = 'status ' + resp.status + '<br>';
+  return resp.json();
+}).then(data => {
+  document.body.innerHTML += 'length ' + data.length;
+}).catch(err => {
+  document.body.innerHTML += 'error ' + err;
+});
+</script>
+</body>
+</html>

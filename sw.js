@@ -1,145 +1,87 @@
-/* خزائن النور Service Worker */
-const VERSION = 'v1.2.2';
-const SHELL_CACHE = `khazain-shell-${VERSION}`;
-const RUNTIME_CACHE = `khazain-runtime-${VERSION}`;
+/*
+ * Service Worker for Khazaen al‑Nur
+ *
+ * This service worker implements basic offline caching for the application.
+ * It pre‑caches essential assets such as the main HTML file, CSS, key
+ * JavaScript modules, the manifest and icons. For other resources it
+ * employs a cache‑first strategy where cached resources are served if
+ * available and network responses are cached on the fly. When offline
+ * and navigation requests fail, it falls back to the cached index.html.
+ */
 
-// App shell (relative to sw.js location)
-const APP_SHELL = [
+const CACHE_NAME = 'khazaen-cache-v1';
+
+// List of files to pre‑cache. These should include the core assets
+// necessary for the app shell to load when offline. Additional assets
+// (such as dynamic content) will be cached at runtime.
+const urlsToCache = [
   './',
   'index.html',
-  'style.css',
+  'css/style.css',
+  'js/navigation/navigation.js',
+  'js/theme/theme.js',
+  'js/settings/settings.js',
+  'js/sidebar/sidebar.js',
+  'js/favorites/favorites.js',
+  'js/search/searchData.js',
+  'js/search/search.js',
   'manifest.json',
-  'js/db.js',
-  'js/days.js',
-  'js/audio.js',
-  'js/quran.js',
-  'js/occasions.js',
-  'js/main.js',
-  'js/play.js',
-  'js/actions.js',
-  'js/start.js',
-  'icons/icon-192.png',
-  'icons/icon-512.png',
-  'icons/icon-192-maskable.png',
-  'icons/icon-512-maskable.png',
-  'json/duas.json',
-  'json/monajat.json',
-  'json/ziyarat.json',
-  'json/baqiyat.json',
-  'json/days.json',
-  'json/months.json',
-  'json/nahj_balagha.json',
-  'json/aqaid_imamiah.json',
-  'json/rights.json',
-  'json/monasbat.json',
-  'json/a3mal_days.json',
-  'json/friday_duas_audio.json',
-  'json/القران الكريم.json'
+  'icons/icon-192x192.png',
+  'icons/icon-512x512.png'
 ];
 
-self.addEventListener('install', (event) => {
+// Install event: pre‑cache core assets
+self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(SHELL_CACHE)
-      .then((cache) => cache.addAll(APP_SHELL))
-      .then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll(urlsToCache);
+    })
   );
 });
 
-self.addEventListener('activate', (event) => {
+// Activate event: clean up old caches
+self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => ![SHELL_CACHE, RUNTIME_CACHE].includes(k)).map((k) => caches.delete(k)))
-    ).then(() => self.clients.claim())
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.filter(name => name !== CACHE_NAME).map(name => caches.delete(name))
+      );
+    })
   );
 });
 
-// Helper: cache as runtime if successful
-async function cachePut(request, response) {
-  try {
-    const cache = await caches.open(RUNTIME_CACHE);
-    await cache.put(request, response);
-  } catch (_) {}
-}
+// Fetch event: respond with cached resources when available
+self.addEventListener('fetch', event => {
+  // We only want to handle GET requests
+  if (event.request.method !== 'GET') {
+    return;
+  }
 
-self.addEventListener('fetch', (event) => {
-  const req = event.request;
-  if (req.method !== 'GET') return;
-
-  const url = new URL(req.url);
-
-  // Google Fonts (cross-origin): stale-while-revalidate
-  if (url.origin === 'https://fonts.googleapis.com' || url.origin === 'https://fonts.gstatic.com') {
-    event.respondWith((async () => {
-      const cached = await caches.match(req);
-      const fetchPromise = fetch(req)
-        .then((res) => {
-          // opaque responses are ok to cache
-          cachePut(req, res.clone());
-          return res;
+  event.respondWith(
+    caches.match(event.request).then(cachedResponse => {
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+      return fetch(event.request)
+        .then(networkResponse => {
+          // Only cache requests to our origin. This avoids caching third‑party
+          // resources such as fonts or analytics scripts that may block the
+          // service worker if they are not CORS‑enabled.
+          if (event.request.url.startsWith(self.location.origin)) {
+            return caches.open(CACHE_NAME).then(cache => {
+              cache.put(event.request, networkResponse.clone());
+              return networkResponse;
+            });
+          }
+          return networkResponse;
         })
-        .catch(() => cached || Response.error());
-      return cached || fetchPromise;
-    })());
-    return;
-  }
-
-  // Only handle same-origin for the rest
-  if (url.origin !== self.location.origin) return;
-
-  // SPA-ish navigation: serve cached index.html when offline
-  if (req.mode === 'navigate') {
-    event.respondWith((async () => {
-      const indexReq = new Request('index.html');
-      const cached = await caches.match(indexReq);
-      try {
-        const fresh = await fetch(req);
-        if (fresh && fresh.ok) cachePut(indexReq, fresh.clone());
-        return fresh;
-      } catch (_) {
-        return cached || Response.error();
-      }
-    })());
-    return;
-  }
-
-  // Cache-first for app shell & static assets, runtime fallback to network
-  event.respondWith((async () => {
-    const cached = await caches.match(req);
-    if (cached) return cached;
-
-    try {
-      const res = await fetch(req);
-      if (res && res.ok) {
-        // Cache JSON/TXT/scripts/styles/fonts/images for offline
-        const path = url.pathname;
-        const isGoogleFonts = (url.origin === 'https://fonts.googleapis.com' || url.origin === 'https://fonts.gstatic.com');
-        const shouldCache =
-          isGoogleFonts ||
-          path.includes('/js/') ||
-          path.includes('/json/') ||
-          path.includes('/txt/') ||
-          path.includes('/icons/') ||
-          path.endsWith('.css') ||
-          path.endsWith('.html') ||
-          path.endsWith('.png') ||
-          path.endsWith('.jpg') ||
-          path.endsWith('.jpeg') ||
-          path.endsWith('.svg') ||
-          path.endsWith('.webp') ||
-          path.endsWith('.ttf') ||
-          path.endsWith('.woff') ||
-          path.endsWith('.woff2');
-        if (shouldCache) cachePut(req, res.clone());
-      }
-      return res;
-    } catch (_) {
-      // Offline fallback
-      return cached || Response.error();
-    }
-  })());
-});
-
-// Allow the page to trigger immediate activation
-self.addEventListener('message', (event) => {
-  if (event.data === 'SKIP_WAITING') self.skipWaiting();
+        .catch(() => {
+          // If the request is a navigation to a page and fails, return the
+          // offline fallback (index.html).
+          if (event.request.mode === 'navigate') {
+            return caches.match('index.html');
+          }
+        });
+    })
+  );
 });

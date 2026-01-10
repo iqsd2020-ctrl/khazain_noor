@@ -1,0 +1,240 @@
+/* Extracted styles from inline <style> in index.html */
+
+/* المتغيرات والألوان */
+:root {
+    /* Primary gradient for dark mode: deeper blues blending into midnight tones */
+    --primary-bg-gradient: linear-gradient(to bottom right, #0f172a, #1e3a8a, #312e81);
+    /* Semi‑transparent glass background for cards and panels */
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    /* Border color for glass elements */
+    --glass-border: rgba(255, 255, 255, 0.2);
+    /* Text colors in dark mode */
+    --text-main: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-accent: #a5b4fc;
+    /* Set Amiri as the default font for both application UI and reading text */
+    --app-font: 'Amiri', serif;
+    --reading-font: 'Amiri', serif;
+    --reading-size-scale: 1;
+}
+
+body.light-mode {
+    /* Light mode gradient: soft blues fading into white */
+    --primary-bg-gradient: linear-gradient(to bottom right, #f8fafc, #eff6ff, #e0f2fe);
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.8);
+    /* Text colors in light mode */
+    --text-main: #1e293b;
+    --text-secondary: #475569;
+    --text-accent: #4f46e5;
+}
+
+body {
+    font-family: var(--app-font);
+    background: var(--primary-bg-gradient);
+    background-attachment: fixed;
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: color 0.3s, background 0.3s, font-family 0.3s;
+
+    /* Prevent text selection across the app; override on form controls */
+    user-select: none;
+    -webkit-user-select: none;
+    /* Prevent pull-to-refresh overscroll on mobile browsers */
+    overscroll-behavior-y: none;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+    /* Re-enable text selection inside inputs and selects */
+    user-select: text;
+    -webkit-user-select: text;
+}
+
+body.light-mode .text-white {
+    color: var(--text-main) !important;
+}
+body.light-mode .text-gray-100 {
+    color: var(--text-main) !important;
+}
+body.light-mode .text-gray-400 {
+    color: var(--text-secondary) !important;
+}
+body.light-mode .text-indigo-200 {
+    color: var(--text-accent) !important;
+}
+body.light-mode .glass-card:hover {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.reading-text {
+    font-family: var(--reading-font);
+    font-size: calc(1rem * var(--reading-size-scale));
+    /* Align reading text to justify for better Arabic typesetting */
+    text-align: justify;
+}
+
+.card-title {
+    font-family: var(--app-font);
+    font-weight: bold;
+}
+
+.main-title {
+    font-family: var(--app-font);
+    font-weight: 700;
+}
+
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.glass-card:hover {
+    /* Slight lift on hover without noticeable jump */
+    transform: translateY(-2px);
+    /* Brighter glass effect on hover */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.glass-card:active {
+    /* Avoid shrinking on click to prevent noticeable jump */
+    transform: translateY(0);
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100%;
+    z-index: 60;
+    transition: right 0.4s ease-in-out;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(15px);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    overflow-y: auto;
+}
+
+body.light-mode .sidebar {
+    background: rgba(255, 255, 255, 0.95);
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.sidebar.active {
+    right: 0;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
+    z-index: 55;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+.setting-group {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+body.light-mode .setting-group {
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+select,
+button.control-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    cursor: pointer;
+}
+
+body.light-mode select,
+body.light-mode button.control-btn {
+    background: white;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+}
+
+select option {
+    background: #1e293b;
+    color: white;
+}
+body.light-mode select option {
+    background: white;
+    color: #334155;
+}
+
+.fade-in {
+    animation: fadeIn 0.4s ease-in-out;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin-slow {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+.animate-spin-slow {
+    animation: spin-slow 10s linear infinite;
+}
+
+#main-header {
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+#main-header.hidden-header {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
