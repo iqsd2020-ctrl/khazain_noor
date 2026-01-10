@@ -1,23 +1,25 @@
-// Misbaha modal controls
-// This simple module provides functions to open and close the misbaha
-// overlay. The modal displays the misbaha.html page within an iframe.
+// Misbaha integration helpers
+// Legacy functions to open and close the misbaha. These are kept for backward
+// compatibility in case some elements still reference openMisbahaModal().
+// Instead of opening a modal overlay, these functions now navigate to the
+// misbaha page inside the application using openPage().
 
-// Opens the misbaha modal by removing the `hidden` class
 function openMisbahaModal() {
-    const modal = document.getElementById('misbaha-modal');
-    if (modal) {
-        modal.classList.remove('hidden');
+    // Navigate to the misbaha view in the app. The header will hide and
+    // the misbaha page will appear within the application interface.
+    if (typeof openPage === 'function') {
+        openPage('misbaha-view');
     }
 }
 
-// Closes the misbaha modal by adding the `hidden` class
 function closeMisbahaModal() {
-    const modal = document.getElementById('misbaha-modal');
-    if (modal) {
-        modal.classList.add('hidden');
+    // Close by returning to the previous page. We simply call closePage if available.
+    if (typeof closePage === 'function') {
+        closePage();
     }
 }
 
-// Expose functions to global scope to be used inline in HTML
+// Expose functions to global scope. Any inline references will now open
+// the misbaha view instead of attempting to show a modal.
 window.openMisbahaModal = openMisbahaModal;
 window.closeMisbahaModal = closeMisbahaModal;

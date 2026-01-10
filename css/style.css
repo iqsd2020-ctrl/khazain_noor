@@ -1,5 +1,37 @@
 /* Extracted styles from inline <style> in index.html */
 
+/* Custom font-face definitions using local fonts instead of Google fonts */
+@font-face {
+    font-family: 'Amiri';
+    src: url('../fonts/AdobeNaskh.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Tajawal';
+    src: url('../fonts/ArialArabic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Noto Sans Arabic';
+    src: url('../fonts/BBCArabic.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Reem Kufi';
+    src: url('../fonts/Lotus.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Scheherazade New';
+    src: url('../fonts/AlMualla.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* المتغيرات والألوان */
 :root {
     /* Primary gradient for dark mode: deeper blues blending into midnight tones */
@@ -82,6 +114,15 @@ body.light-mode .glass-card:hover {
 .card-title {
     font-family: var(--app-font);
     font-weight: bold;
+}
+
+/* Responsive title for long Nahj al‑Balagha headings
+   Use clamp() to adjust font size between 1rem and 1.5rem based on viewport width.
+   This ensures that long titles shrink gracefully on small screens without breaking the layout. */
+.nahj-title {
+    font-size: clamp(1rem, 3vw + 0.5rem, 1.5rem);
+    line-height: 1.3;
+    overflow-wrap: anywhere;
 }
 
 .main-title {
@@ -237,4 +278,28 @@ body.light-mode select option {
     transform: translateY(-100%);
     opacity: 0;
     pointer-events: none;
+}
+
+/*
+ * Custom overrides for detail page headers.
+ * When a detail view is opened, the main header is hidden and the
+ * sub-view header (containing back/favorite buttons and controls) should
+ * align flush with the top of the container. The default Tailwind
+ * classes (`mb-6 pt-2`) used in the HTML add extra top padding and
+ * bottom margin, which create an unwanted gap above the controls.
+ * These selectors target the first child `div` of each detail view
+ * container and reset the top padding to zero and reduce the bottom
+ * margin for a tighter layout.
+ */
+#duaa-details-view > div:first-child,
+#monajat-details-view > div:first-child,
+#baqiat-details-view > div:first-child,
+#rights-details-view > div:first-child,
+#ziyarat-details-view > div:first-child,
+#nahj-details-view > div:first-child,
+#khutbah-details-view > div:first-child,
+#favorites-view > div:first-child,
+#misbaha-view > div:first-child {
+    padding-top: 0 !important;
+    margin-bottom: 1rem !important;
 }

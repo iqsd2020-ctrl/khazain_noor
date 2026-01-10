@@ -28,7 +28,8 @@ function renderNahjCategories() {
     nahjTabs.forEach((tab, index) => {
         const card = document.createElement('div');
         card.className = 'glass-card rounded-xl p-4 cursor-pointer hover:bg-white/10 transition';
-        card.innerHTML = `<h3 class="text-lg text-indigo-200 font-bold mb-1">${tab.category}</h3>`;
+        // Use responsive classes to ensure long category titles wrap and scale on small screens.
+        card.innerHTML = `<h3 class="text-base sm:text-lg md:text-xl text-indigo-200 font-bold mb-1 break-words">${tab.category}</h3>`;
         card.addEventListener('click', () => openNahjItems(index));
         container.appendChild(card);
     });
@@ -57,7 +58,8 @@ function openNahjItems(tabIndex) {
     tab.items.forEach((item, idx) => {
         const card = document.createElement('div');
         card.className = 'glass-card rounded-xl p-4 cursor-pointer hover:bg-white/10 transition';
-        card.innerHTML = `<h3 class="text-lg text-indigo-200 font-bold mb-1">${item.title}</h3>`;
+        // Use responsive classes to ensure long item titles wrap and scale on small screens.
+        card.innerHTML = `<h3 class="text-base sm:text-lg md:text-xl text-indigo-200 font-bold mb-1 break-words">${item.title}</h3>`;
         card.addEventListener('click', () => openNahjDetails(idx));
         container.appendChild(card);
     });

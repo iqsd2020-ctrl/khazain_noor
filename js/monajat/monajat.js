@@ -19,6 +19,66 @@
 // monajatList.js. If not available, fall back to an empty array.
 const monajatList = Array.isArray(window.monajatList) ? window.monajatList : [];
 
+// Track the currently selected monajat index. This helps determine which
+// audio file to load when toggling the audio player.
+let currentMonajatIndex = null;
+
+// URLs for the monajat audio files in the same order as monajatList.
+const monajatAudioUrls = [
+    'https://www.shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/ooo13w88n93y.mp3',
+    'https://www.shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/xsc2pjijopwh.mp3',
+    'https://www.shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/wxd55umyeb0j.mp3',
+    'https://www.shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/smd8w0wkk1ut.mp3',
+    'https://www.shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/krn1mtnex9pg.mp3',
+    'https://www.shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/rqgsi180c95h.mp3',
+    'https://www.shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/dkewntv844en.mp3',
+    'https://www.shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/evo3qhfar821.mp3',
+    'https://www.shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/kkwzkdw21gfp.mp3',
+    'https://www.shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/gxni80636gbh.mp3',
+    'https://www.shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/foemdaja6c88.mp3',
+    'https://www.shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/vqvw6yp3ha36.mp3',
+    'https://www.shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/ind9dmnkdbw5.mp3',
+    'https://www.shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/rxprxn0g3dt5.mp3',
+    'https://www.shiavoice.com/media/edaie/munajat_imam_sejad/mu7amed_el7ujerat/tk33q7ozib7m.mp3'
+];
+
+/**
+ * Toggle the audio player for the current monajat. When showing, load the
+ * appropriate MP3 based on currentMonajatIndex and start playback. When
+ * hiding, pause playback and hide the player. The player element is
+ * created lazily and reused across toggles.
+ */
+function toggleMonajatAudio() {
+    const playerContainer = document.getElementById('monajat-audio-player');
+    if (!playerContainer) return;
+    // Ensure there is an audio element inside the container
+    let audioEl = playerContainer.querySelector('audio');
+    if (!audioEl) {
+        audioEl = document.createElement('audio');
+        audioEl.controls = true;
+        audioEl.className = 'w-full';
+        playerContainer.appendChild(audioEl);
+    }
+    // Determine audio source based on currentMonajatIndex
+    const url = Array.isArray(monajatAudioUrls) && currentMonajatIndex != null ? monajatAudioUrls[currentMonajatIndex] : null;
+    if (!url) return;
+    if (playerContainer.classList.contains('hidden')) {
+        // Show and play
+        audioEl.src = url;
+        playerContainer.classList.remove('hidden');
+        audioEl.play().catch(() => {});
+    } else {
+        // Hide and pause
+        audioEl.pause();
+        playerContainer.classList.add('hidden');
+    }
+}
+
+// Expose the toggle function to the global scope so it can be called from HTML
+if (typeof window !== 'undefined') {
+    window.toggleMonajatAudio = toggleMonajatAudio;
+}
+
 /**
  * Render the list of monajat titles into the container. Each
  * title becomes a clickable card that opens the corresponding
@@ -107,6 +167,8 @@ function loadMonajatContent(fileName) {
 async function openMonajatDetails(index) {
     const item = monajatList[index];
     if (!item) return;
+    // Set current monajat index for audio playback
+    currentMonajatIndex = index;
     // Update title
     const titleEl = document.getElementById('monajat-title');
     if (titleEl) titleEl.textContent = item.title;
@@ -125,6 +187,16 @@ async function openMonajatDetails(index) {
     if (listView) listView.classList.add('hidden');
     if (detailsView) detailsView.classList.remove('hidden');
     window.scrollTo(0, 0);
+
+    // Hide and pause any existing audio player for monajat
+    const playerContainer = document.getElementById('monajat-audio-player');
+    if (playerContainer) {
+        const audioEl = playerContainer.querySelector('audio');
+        if (audioEl) {
+            audioEl.pause();
+        }
+        playerContainer.classList.add('hidden');
+    }
 
     // Update favorite button state and attach click handler
     if (typeof updateFavButton === 'function') {
@@ -162,6 +234,13 @@ function closeMonajatDetails() {
     const listView = document.getElementById('monajat-list-view');
     if (detailsView) detailsView.classList.add('hidden');
     if (listView) listView.classList.remove('hidden');
+    // Pause and hide audio when closing monajat details
+    const playerContainer = document.getElementById('monajat-audio-player');
+    if (playerContainer) {
+        const audioEl = playerContainer.querySelector('audio');
+        if (audioEl) audioEl.pause();
+        playerContainer.classList.add('hidden');
+    }
     window.scrollTo(0, 0);
 }
 

@@ -21,6 +21,95 @@ const khutbahTabs = Array.isArray(window.khutbahTabs) ? window.khutbahTabs : [];
 // opening details so we know which category to reference.
 let currentKhutbahCategory = null;
 
+// URLs for khutbah audio files. Each index corresponds to the Friday order in khutbahTabs.
+const khutbahAudioUrls = [
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-1.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-2.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-3.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-4.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-5.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-6.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-7.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-8.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-9.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-10.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-11.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-12.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-13.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-14.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-15.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-16.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-17.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-18.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-19.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-20.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-21.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-22.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-23.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-24.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-25.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-26.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-27.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-28.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-29.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-30.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-31.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-32.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-33.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-34.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-35.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-36.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-37.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-38.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-39.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-40.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-41.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-42.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-43.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-44.mp3',
+    'https://alsaydalsadr.app/wp-content/uploads/2024/10/alkhutab-45.mp3'
+];
+
+/**
+ * Toggle the audio player visibility for the current khutbah. When shown, it
+ * loads the appropriate MP3 file based on the current Friday category
+ * (currentKhutbahCategory) and starts playing. When hidden, playback
+ * is paused and the player is hidden.
+ */
+function toggleKhutbahAudio() {
+    const playerContainer = document.getElementById('khutbah-audio-player');
+    if (!playerContainer) return;
+    // Ensure there is an audio element within the container
+    let audioEl = playerContainer.querySelector('audio');
+    if (!audioEl) {
+        audioEl = document.createElement('audio');
+        audioEl.controls = true;
+        audioEl.className = 'w-full';
+        playerContainer.appendChild(audioEl);
+    }
+    // Determine the audio source based on currentKhutbahCategory
+    const url = Array.isArray(khutbahAudioUrls) && currentKhutbahCategory != null ? khutbahAudioUrls[currentKhutbahCategory] : null;
+    if (!url) {
+        return;
+    }
+    if (playerContainer.classList.contains('hidden')) {
+        // Show player and start playback
+        audioEl.src = url;
+        playerContainer.classList.remove('hidden');
+        // Attempt to play; ignore errors for autoplay restrictions
+        audioEl.play().catch(() => {});
+    } else {
+        // Hide player and pause audio
+        audioEl.pause();
+        playerContainer.classList.add('hidden');
+    }
+}
+
+// Expose the audio toggle function to the global scope so it can be called from HTML
+if (typeof window !== 'undefined') {
+    window.toggleKhutbahAudio = toggleKhutbahAudio;
+}
+
 /**
  * Render the list of Friday categories into the khutbah categories
  * container. If no data is available, show a placeholder message.
@@ -99,6 +188,15 @@ async function openKhutbahDetails(itemIndex) {
     if (detailsView) detailsView.classList.remove('hidden');
     const titleEl = document.getElementById('khutbah-item-title');
     if (titleEl) titleEl.textContent = item.title;
+    // Hide audio player and pause any audio when opening new khutbah
+    const playerContainer = document.getElementById('khutbah-audio-player');
+    if (playerContainer) {
+        const audioEl = playerContainer.querySelector('audio');
+        if (audioEl) {
+            audioEl.pause();
+        }
+        playerContainer.classList.add('hidden');
+    }
     const contentContainer = document.getElementById('khutbah-content-container');
     if (contentContainer) {
         contentContainer.innerHTML = `
@@ -155,6 +253,15 @@ function backToKhutbahItems() {
     const itemsView = document.getElementById('khutbah-items-view');
     if (detailsView) detailsView.classList.add('hidden');
     if (itemsView) itemsView.classList.remove('hidden');
+    // Pause audio and hide player when leaving details view
+    const playerContainer = document.getElementById('khutbah-audio-player');
+    if (playerContainer) {
+        const audioEl = playerContainer.querySelector('audio');
+        if (audioEl) {
+            audioEl.pause();
+        }
+        playerContainer.classList.add('hidden');
+    }
     window.scrollTo(0, 0);
 }
 

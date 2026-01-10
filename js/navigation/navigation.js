@@ -8,8 +8,15 @@
 function openPage(pageId) {
     document.getElementById('main-header').classList.add('hidden-header');
     const mainContainer = document.getElementById('main-container');
-    mainContainer.classList.remove('pt-24');
-    mainContainer.classList.add('pt-12');
+    // Remove any existing top‑padding classes on the main container.  When
+    // navigating away from the home page we want to minimise the vertical
+    // space above the sub‑view header, so clear the large padding classes
+    // applied on the main view and apply a smaller one instead.
+    mainContainer.classList.remove('pt-24', 'pt-12', 'pt-8', 'pt-6', 'pt-4');
+    // Apply no top padding for subpages.  This removes the empty
+    // area above the control row and allows the header row to align
+    // closely to the top of the viewport.
+    mainContainer.classList.add('pt-0');
     document.getElementById('main-view').classList.add('hidden');
     document.getElementById(pageId).classList.remove('hidden');
     window.scrollTo(0, 0);
@@ -91,8 +98,11 @@ function openPage(pageId) {
 function closePage() {
     document.getElementById('main-header').classList.remove('hidden-header');
     const mainContainer = document.getElementById('main-container');
+    // Restore the original large padding for the main view
     mainContainer.classList.add('pt-24');
-    mainContainer.classList.remove('pt-12');
+    // Clean up any smaller paddings that may have been applied when
+    // navigating to subviews
+    mainContainer.classList.remove('pt-12', 'pt-8', 'pt-6', 'pt-4', 'pt-2', 'pt-0');
     // hide all known sub‑pages
     const dailyDeedsView = document.getElementById('daily-deeds-view');
     if (dailyDeedsView) dailyDeedsView.classList.add('hidden');
@@ -152,7 +162,31 @@ function closePage() {
     if (khutbahItemsView) khutbahItemsView.classList.add('hidden');
     if (khutbahDetailsView) khutbahDetailsView.classList.add('hidden');
 
+    // Pause and hide khutbah audio when leaving any page
+    const khutbahPlayerContainer = document.getElementById('khutbah-audio-player');
+    if (khutbahPlayerContainer) {
+        const audioEl = khutbahPlayerContainer.querySelector('audio');
+        if (audioEl) {
+            audioEl.pause();
+        }
+        khutbahPlayerContainer.classList.add('hidden');
+    }
+
+    // Pause and hide monajat audio when leaving any page
+    const monajatPlayerContainer = document.getElementById('monajat-audio-player');
+    if (monajatPlayerContainer) {
+        const monajatAudioEl = monajatPlayerContainer.querySelector('audio');
+        if (monajatAudioEl) {
+            monajatAudioEl.pause();
+        }
+        monajatPlayerContainer.classList.add('hidden');
+    }
+
     // Hide favorites view
     const favoritesView = document.getElementById('favorites-view');
     if (favoritesView) favoritesView.classList.add('hidden');
+
+    // Hide misbaha view
+    const misbahaView = document.getElementById('misbaha-view');
+    if (misbahaView) misbahaView.classList.add('hidden');
 }

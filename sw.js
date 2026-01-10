@@ -29,7 +29,6 @@ const urlsToCache = [
   // continues to work offline. The iframe loads misbaha.html and the
   // corresponding controller script.
   'misbaha.html',
-  'js/misbaha/misbaha.js',
   'manifest.json',
   'icons/icon-192x192.png',
   'icons/icon-512x512.png'

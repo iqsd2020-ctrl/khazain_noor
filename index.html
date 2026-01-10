@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>خزائن النور</title>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700&family=Noto+Sans+Arabic:wght@400;600&family=Reem+Kufi:wght@400;600&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Removed external Google Font imports. Local fonts defined in CSS will be used instead. -->
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -41,21 +39,6 @@
         </div>
     </div>
 
-    <!-- Misbaha modal overlay: hidden by default. Displays the misbaha
-         (digital rosary) interface inside an iframe. The modal covers the
-         screen with a semi-transparent backdrop and centers the content. -->
-    <div id="misbaha-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-        <div class="relative w-full max-w-md h-[90vh] p-4 glass-panel overflow-hidden">
-            <button onclick="closeMisbahaModal()" class="absolute top-2 left-2 md:left-auto md:right-2 text-gray-300 hover:text-red-500 transition">
-                <i class="fa-solid fa-times text-2xl"></i>
-            </button>
-            <!-- The misbaha page is loaded via an iframe so that its styles and scripts
-                 remain isolated. The sandbox allows scripts and same-origin features.
-                 The iframe fills the container and has a rounded border. -->
-            <iframe src="misbaha.html" class="w-full h-full rounded-xl" sandbox="allow-scripts allow-same-origin"></iframe>
-        </div>
-    </div>
-
     <!-- Settings button moved into header; removed the floating gear button -->
 
     <nav class="sidebar flex flex-col p-6" id="sidebar">
@@ -70,20 +53,21 @@
              <div class="setting-group">
                 <label class="block text-xs text-gray-400 mb-2 font-bold"><i class="fa-solid fa-font mb-1 ml-1"></i> خط التطبيق</label>
                 <select id="appFontSelect" onchange="changeAppFont(this.value)" class="w-full rounded p-2 text-sm focus:outline-none focus:border-indigo-500 transition">
-                    <option value="'Amiri', serif" selected>الأميري (افتراضي)</option>
-                    <option value="'Tajawal', sans-serif">تجوال (عصري)</option>
-                    <option value="'Noto Sans Arabic', sans-serif">نسخ (رسمي)</option>
-                    <option value="'Reem Kufi', sans-serif">كوفي (فني)</option>
+                    <!-- Map external font names to local fonts; labels reflect the actual fonts bundled with the app -->
+                    <option value="'Amiri', serif" selected>النسخ الأدوبي (افتراضي)</option>
+                    <option value="'Tajawal', sans-serif">آريال عربي</option>
+                    <option value="'Noto Sans Arabic', sans-serif">بي بي سي عادي</option>
+                    <option value="'Reem Kufi', sans-serif">خط اللوتس</option>
                 </select>
             </div>
             <div class="setting-group">
                 <label class="block text-xs text-gray-400 mb-2 font-bold"><i class="fa-solid fa-book-open mb-1 ml-1"></i> خط القراءة</label>
                 <select id="readingFontSelect" onchange="changeReadingFont(this.value)" class="w-full rounded p-2 text-sm focus:outline-none focus:border-indigo-500 transition">
                     <!-- Ensure the Amiri font is selected by default for reading text -->
-                    <option value="'Amiri', serif" selected>الأميري (افتراضي)</option>
-                    <option value="'Tajawal', sans-serif">تجوال</option>
-                    <option value="'Scheherazade New', serif">شهرزاد</option>
-                    <option value="'Noto Sans Arabic', sans-serif">نسخ</option>
+                    <option value="'Amiri', serif" selected>النسخ الأدوبي (افتراضي)</option>
+                    <option value="'Tajawal', sans-serif">آريال عربي</option>
+                    <option value="'Scheherazade New', serif">المعلى</option>
+                    <option value="'Noto Sans Arabic', sans-serif">بي بي سي عادي</option>
                 </select>
             </div>
             <div class="setting-group">
@@ -181,7 +165,8 @@
 
 
 
-                <div onclick="openMisbahaModal()" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group">
+                <!-- Audio card (currently inactive) -->
+                <div class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center group">
                     <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center mb-2 md:mb-3 shadow-lg group-hover:scale-110 transition duration-300">
                         <i class="fa-solid fa-headphones-simple text-lg md:text-2xl text-white"></i>
                     </div>
@@ -197,7 +182,8 @@
                     <p class="text-[10px] md:text-xs text-gray-400 mt-1 hidden md:block">الجمعة والمحاضرات</p>
                 </div>
 
-                <div onclick="openMisbahaModal()" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group">
+                <!-- Misbaha card: opens the digital rosary page inside the app -->
+                <div onclick="openPage('misbaha-view')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group">
                     <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-red-400 to-rose-600 flex items-center justify-center mb-2 md:mb-3 shadow-lg group-hover:scale-110 transition duration-300">
                         <i class="fa-solid fa-hand-holding-droplet text-lg md:text-2xl text-white"></i>
                     </div>
@@ -240,7 +226,7 @@
         </div>
 
         <div id="daily-deeds-view" class="hidden fade-in">
-            <div class="flex items-center mb-6 pt-2">
+            <div class="flex items-center mb-4">
                 <button onclick="closePage()" class="p-3 rounded-full hover:bg-white/10 transition text-white">
                     <i class="fa-solid fa-arrow-right text-xl"></i>
                 </button>
@@ -280,7 +266,7 @@
             </div>
         </div>
 <div id="months-view" class="hidden fade-in">
-    <div class="flex items-center mb-6 pt-2">
+<div class="flex items-center mb-4">
         <button onclick="closePage()" class="p-3 rounded-full hover:bg-white/10 transition text-white">
             <i class="fa-solid fa-arrow-right text-xl"></i>
         </button>
@@ -432,10 +418,18 @@
                     <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="الوضع الليلي/النهاري">
                         <i class="fa-regular fa-moon text-sm theme-toggle-icon"></i>
                     </button>
+                    <!-- Audio toggle button for supplication details -->
+                    <button id="duaa-audio-btn" onclick="toggleDuaaAudio()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تشغيل الصوت">
+                        <i class="fa-solid fa-volume-high text-sm"></i>
+                    </button>
                     <button onclick="copyCurrentText('duaa-content-container')" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="نسخ النص">
                         <i class="fa-regular fa-copy text-sm"></i>
                     </button>
                 </div>
+            </div>
+            <!-- Audio player container (hidden by default) -->
+            <div id="duaa-audio-player" class="hidden glass-card rounded-xl p-3 mb-4 max-w-3xl mx-auto">
+                <!-- Audio element will be inserted dynamically by JS -->
             </div>
             <!-- Content container for supplication text -->
             <div id="duaa-content-container" class="space-y-4 pb-10 min-h-[300px]"></div>
@@ -487,11 +481,17 @@
                     <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="الوضع الليلي/النهاري">
                         <i class="fa-regular fa-moon text-sm theme-toggle-icon"></i>
                     </button>
+                    <!-- Audio toggle button for monajat details -->
+                    <button id="monajat-audio-btn" onclick="toggleMonajatAudio()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تشغيل الصوت">
+                        <i class="fa-solid fa-volume-high text-sm"></i>
+                    </button>
                     <button onclick="copyCurrentText('monajat-content-container')" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="نسخ النص">
                         <i class="fa-regular fa-copy text-sm"></i>
                     </button>
                 </div>
             </div>
+            <!-- Audio player container for monajat (hidden by default) -->
+            <div id="monajat-audio-player" class="hidden glass-card rounded-xl p-3 mb-4 max-w-3xl mx-auto"></div>
             <div id="monajat-content-container" class="space-y-4 pb-10 min-h-[300px]"></div>
         </div>
 
@@ -725,7 +725,9 @@
                     <button id="nahj-fav-btn" class="p-3 rounded-full hover:bg-white/10 transition text-yellow-400" title="أضف إلى المفضلة">
                         <i class="fa-regular fa-star text-xl"></i>
                     </button>
-                    <h2 id="nahj-item-title" class="text-2xl font-bold text-indigo-200 card-title truncate">عنوان النص</h2>
+                    <!-- Use the responsive nahj-title class to scale font size dynamically based on screen width.
+                         Removed text-2xl and truncate classes to avoid fixed sizing and truncation; the nahj-title class handles responsiveness. -->
+                    <h2 id="nahj-item-title" class="nahj-title font-bold text-indigo-200 card-title">عنوان النص</h2>
                 </div>
                 <div class="flex items-center gap-2 flex-wrap">
                     <button onclick="changeFontSize(0.1)" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تكبير الخط">
@@ -806,12 +808,35 @@
                     <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="الوضع الليلي/النهاري">
                         <i class="fa-regular fa-moon text-sm theme-toggle-icon"></i>
                     </button>
+                    <!-- Audio toggle button for khutbah details -->
+                    <button id="khutbah-audio-btn" onclick="toggleKhutbahAudio()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تشغيل الصوت">
+                        <i class="fa-solid fa-volume-high text-sm"></i>
+                    </button>
                     <button onclick="copyCurrentText('khutbah-content-container')" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="نسخ النص">
                         <i class="fa-regular fa-copy text-sm"></i>
                     </button>
                 </div>
             </div>
+            <!-- Audio player container (hidden by default) -->
+            <div id="khutbah-audio-player" class="hidden glass-card rounded-xl p-3 mb-4 max-w-3xl mx-auto">
+                <!-- Audio element will be inserted dynamically by JS -->
+            </div>
             <div id="khutbah-content-container" class="space-y-4 pb-10 min-h-[300px]"></div>
+        </div>
+
+        <!-- Misbaha view -->
+        <div id="misbaha-view" class="hidden fade-in">
+            <div class="flex items-center mb-6 pt-2">
+                <!-- Back button to return to the main grid -->
+                <button onclick="closePage()" class="p-3 rounded-full hover:bg-white/10 transition text-white" title="رجوع">
+                    <i class="fa-solid fa-arrow-right text-xl"></i>
+                </button>
+                <h2 class="text-2xl font-bold text-indigo-200 mr-4 card-title">المسبحة</h2>
+            </div>
+            <div class="flex justify-center pb-10">
+                <!-- Load the digital misbaha from a local file within the app -->
+                <iframe src="misbaha.html" class="w-full max-w-md h-[80vh] rounded-2xl glass-panel overflow-hidden" sandbox="allow-scripts allow-same-origin"></iframe>
+            </div>
         </div>
 
         <!-- Favorites view -->
@@ -1194,8 +1219,6 @@ function closeOccasionsPage() {
     <!-- Khutbah logic -->
     <script src="js/khutbah/khutbah.js"></script>
 
-    <!-- Misbaha modal logic -->
-    <script src="js/misbaha/misbaha.js"></script>
 
     <!-- Favorites logic: handle adding/removing items and listing favorites -->
     <script src="js/favorites/favorites.js"></script>
