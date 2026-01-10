@@ -615,10 +615,19 @@
                     <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="الوضع الليلي/النهاري">
                         <i class="fa-regular fa-moon text-sm theme-toggle-icon"></i>
                     </button>
+                    <button id="rights-audio-btn" onclick="toggleRightsAudio()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="استماع">
+                        <i class="fa-solid fa-volume-high text-sm"></i>
+                    </button>
                     <button onclick="copyCurrentText('rights-content-container')" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="نسخ النص">
                         <i class="fa-regular fa-copy text-sm"></i>
                     </button>
                 </div>
+            </div>
+            <!-- Audio player for rights -->
+            <div id="rights-audio-player" class="glass-card rounded-xl p-3 mb-6 max-w-3xl mx-auto hidden">
+                <audio controls class="w-full" preload="none">
+                    <source src="" type="audio/mpeg">
+                </audio>
             </div>
             <div id="rights-content-container" class="space-y-4 pb-10 min-h-[300px]"></div>
         </div>
@@ -1203,6 +1212,8 @@ function closeOccasionsPage() {
     <script src="js/baqiat/baqiat.js"></script>
     <!-- Preloaded Rights categories and items -->
     <script src="js/rights/rightsTabs.js"></script>
+    <!-- Rights audio map -->
+    <script src="js/rights/rightsAudio.js"></script>
     <!-- Rights logic -->
     <script src="js/rights/rights.js"></script>
     <!-- Preloaded Ziyarat categories and items -->

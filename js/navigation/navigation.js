@@ -182,6 +182,16 @@ function closePage() {
         monajatPlayerContainer.classList.add('hidden');
     }
 
+    // Pause and hide rights audio when leaving any page
+    const rightsPlayerContainer = document.getElementById('rights-audio-player');
+    if (rightsPlayerContainer) {
+        const rightsAudioEl = rightsPlayerContainer.querySelector('audio');
+        if (rightsAudioEl) {
+            rightsAudioEl.pause();
+        }
+        rightsPlayerContainer.classList.add('hidden');
+    }
+
     // Hide favorites view
     const favoritesView = document.getElementById('favorites-view');
     if (favoritesView) favoritesView.classList.add('hidden');
