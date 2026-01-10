@@ -65,6 +65,15 @@ function openPage(pageId) {
         }
     }
 
+    // Render Khutbah categories when navigating to Khutbah section
+    if (pageId === 'khutbah-categories-view' && typeof renderKhutbahCategories === 'function') {
+        try {
+            renderKhutbahCategories();
+        } catch (e) {
+            console.error('Error rendering khutbah categories:', e);
+        }
+    }
+
     // Render favorites list when navigating to favorites view
     if (pageId === 'favorites-view' && typeof renderFavorites === 'function') {
         try {
@@ -134,6 +143,14 @@ function closePage() {
     if (nahjCategoriesView) nahjCategoriesView.classList.add('hidden');
     if (nahjItemsView) nahjItemsView.classList.add('hidden');
     if (nahjDetailsView) nahjDetailsView.classList.add('hidden');
+
+    // Hide Khutbah views
+    const khutbahCategoriesView = document.getElementById('khutbah-categories-view');
+    const khutbahItemsView = document.getElementById('khutbah-items-view');
+    const khutbahDetailsView = document.getElementById('khutbah-details-view');
+    if (khutbahCategoriesView) khutbahCategoriesView.classList.add('hidden');
+    if (khutbahItemsView) khutbahItemsView.classList.add('hidden');
+    if (khutbahDetailsView) khutbahDetailsView.classList.add('hidden');
 
     // Hide favorites view
     const favoritesView = document.getElementById('favorites-view');

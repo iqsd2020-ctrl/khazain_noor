@@ -150,6 +150,7 @@
                 case 'rights': return 'رسالة الحقوق';
                 case 'ziyarat': return 'الزيارات';
                 case 'nahj': return 'نهج البلاغة';
+                case 'khutbah': return 'خطب الجمعة';
                 default: return '';
             }
         };
@@ -208,6 +209,12 @@
             setTimeout(() => {
                 openNahjItems(catIdx);
                 setTimeout(() => openNahjDetails(idx), 50);
+            }, 50);
+        } else if (section === 'khutbah') {
+            openPage('khutbah-categories-view');
+            setTimeout(() => {
+                openKhutbahItems(catIdx);
+                setTimeout(() => openKhutbahDetails(idx), 50);
             }, 50);
         }
     }

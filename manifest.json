@@ -1,8 +1,8 @@
 {
   "name": "خزائن النور",
-  "short_name": "خزائن النور",
+  "short_name": "خزائن",
   "start_url": ".",
-  "display": "fullscreen",
+  "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#1e3a8a",
   "description": "تطبيق خزائن النور",

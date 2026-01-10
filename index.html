@@ -41,6 +41,21 @@
         </div>
     </div>
 
+    <!-- Misbaha modal overlay: hidden by default. Displays the misbaha
+         (digital rosary) interface inside an iframe. The modal covers the
+         screen with a semi-transparent backdrop and centers the content. -->
+    <div id="misbaha-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+        <div class="relative w-full max-w-md h-[90vh] p-4 glass-panel overflow-hidden">
+            <button onclick="closeMisbahaModal()" class="absolute top-2 left-2 md:left-auto md:right-2 text-gray-300 hover:text-red-500 transition">
+                <i class="fa-solid fa-times text-2xl"></i>
+            </button>
+            <!-- The misbaha page is loaded via an iframe so that its styles and scripts
+                 remain isolated. The sandbox allows scripts and same-origin features.
+                 The iframe fills the container and has a rounded border. -->
+            <iframe src="misbaha.html" class="w-full h-full rounded-xl" sandbox="allow-scripts allow-same-origin"></iframe>
+        </div>
+    </div>
+
     <!-- Settings button moved into header; removed the floating gear button -->
 
     <nav class="sidebar flex flex-col p-6" id="sidebar">
@@ -166,7 +181,7 @@
 
 
 
-                <div class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group">
+                <div onclick="openMisbahaModal()" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group">
                     <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center mb-2 md:mb-3 shadow-lg group-hover:scale-110 transition duration-300">
                         <i class="fa-solid fa-headphones-simple text-lg md:text-2xl text-white"></i>
                     </div>
@@ -174,7 +189,7 @@
                     <p class="text-[10px] md:text-xs text-gray-400 mt-1 hidden md:block">استماع بجودة عالية</p>
                 </div>
 
-                <div class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group">
+                <div onclick="openPage('khutbah-categories-view')" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group">
                     <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-slate-400 to-gray-600 flex items-center justify-center mb-2 md:mb-3 shadow-lg group-hover:scale-110 transition duration-300">
                         <i class="fa-solid fa-book-open-reader text-lg md:text-2xl text-white"></i>
                     </div>
@@ -182,7 +197,7 @@
                     <p class="text-[10px] md:text-xs text-gray-400 mt-1 hidden md:block">الجمعة والمحاضرات</p>
                 </div>
 
-                <div class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group">
+                <div onclick="openMisbahaModal()" class="glass-card aspect-square rounded-2xl p-2 md:p-4 text-center cursor-pointer group">
                     <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-red-400 to-rose-600 flex items-center justify-center mb-2 md:mb-3 shadow-lg group-hover:scale-110 transition duration-300">
                         <i class="fa-solid fa-hand-holding-droplet text-lg md:text-2xl text-white"></i>
                     </div>
@@ -736,6 +751,69 @@
             <div id="nahj-content-container" class="space-y-4 pb-10 min-h-[300px]"></div>
         </div>
 
+        <!-- Khutbah (Friday sermons) categories view -->
+        <div id="khutbah-categories-view" class="hidden fade-in">
+            <div class="flex items-center mb-6 pt-2">
+                <button onclick="closePage()" class="p-3 rounded-full hover:bg-white/10 transition text-white">
+                    <i class="fa-solid fa-arrow-right text-xl"></i>
+                </button>
+                <h2 class="text-2xl font-bold text-indigo-200 mr-4 card-title">خطب الجمعة</h2>
+            </div>
+            <div id="khutbah-categories-container" class="space-y-3 pb-10 min-h-[300px]">
+                <div class="text-center mt-10 text-gray-400">
+                    <i class="fa-solid fa-circle-notch animate-spin text-3xl mb-3"></i>
+                    <p>جاري التحميل...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Khutbah items view -->
+        <div id="khutbah-items-view" class="hidden fade-in">
+            <div class="flex items-center mb-6 pt-2">
+                <button onclick="backToKhutbahCategories()" class="p-3 rounded-full hover:bg-white/10 transition text-white">
+                    <i class="fa-solid fa-arrow-right text-xl"></i>
+                </button>
+                <h2 id="khutbah-category-title" class="text-2xl font-bold text-indigo-200 mr-4 card-title">الجمعة</h2>
+            </div>
+            <div id="khutbah-items-container" class="space-y-3 pb-10 min-h-[300px]"></div>
+        </div>
+
+        <!-- Khutbah details view -->
+        <div id="khutbah-details-view" class="hidden fade-in">
+            <div class="flex flex-wrap justify-between items-center gap-2 mb-6 pt-2">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <button onclick="backToKhutbahItems()" class="p-3 rounded-full hover:bg-white/10 transition text-white" title="رجوع">
+                        <i class="fa-solid fa-arrow-right text-xl"></i>
+                    </button>
+                    <button id="khutbah-fav-btn" class="p-3 rounded-full hover:bg-white/10 transition text-yellow-400" title="أضف إلى المفضلة">
+                        <i class="fa-regular fa-star text-xl"></i>
+                    </button>
+                    <h2 id="khutbah-item-title" class="text-2xl font-bold text-indigo-200 card-title truncate">عنوان الخطبة</h2>
+                </div>
+                <div class="flex items-center gap-2 flex-wrap">
+                    <button onclick="changeFontSize(0.1)" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تكبير الخط">
+                        <i class="fa-solid fa-plus text-sm"></i>
+                    </button>
+                    <button onclick="changeFontSize(-0.1)" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تصغير الخط">
+                        <i class="fa-solid fa-minus text-sm"></i>
+                    </button>
+                    <select onchange="changeReadingFont(this.value)" class="rounded bg-transparent border border-gray-500 text-sm px-2 py-1 focus:outline-none focus:border-indigo-500 transition">
+                        <option value="'Amiri', serif">الأميري</option>
+                        <option value="'Tajawal', sans-serif">تجوال</option>
+                        <option value="'Scheherazade New', serif">شهرزاد</option>
+                        <option value="'Noto Sans Arabic', sans-serif">نسخ</option>
+                    </select>
+                    <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="الوضع الليلي/النهاري">
+                        <i class="fa-regular fa-moon text-sm theme-toggle-icon"></i>
+                    </button>
+                    <button onclick="copyCurrentText('khutbah-content-container')" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="نسخ النص">
+                        <i class="fa-regular fa-copy text-sm"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="khutbah-content-container" class="space-y-4 pb-10 min-h-[300px]"></div>
+        </div>
+
         <!-- Favorites view -->
         <div id="favorites-view" class="hidden fade-in">
             <div class="flex items-center mb-6 pt-2">
@@ -1110,6 +1188,14 @@ function closeOccasionsPage() {
     <script src="js/nahj/nahjTabs.js"></script>
     <!-- Nahj logic -->
     <script src="js/nahj/nahj.js"></script>
+
+    <!-- Preloaded Khutbah categories and items -->
+    <script src="js/khutbah/khutbahTabs.js"></script>
+    <!-- Khutbah logic -->
+    <script src="js/khutbah/khutbah.js"></script>
+
+    <!-- Misbaha modal logic -->
+    <script src="js/misbaha/misbaha.js"></script>
 
     <!-- Favorites logic: handle adding/removing items and listing favorites -->
     <script src="js/favorites/favorites.js"></script>

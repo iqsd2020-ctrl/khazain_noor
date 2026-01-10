@@ -25,6 +25,11 @@ const urlsToCache = [
   'js/favorites/favorites.js',
   'js/search/searchData.js',
   'js/search/search.js',
+  // Pre-cache the misbaha modal and its logic so the digital rosary
+  // continues to work offline. The iframe loads misbaha.html and the
+  // corresponding controller script.
+  'misbaha.html',
+  'js/misbaha/misbaha.js',
   'manifest.json',
   'icons/icon-192x192.png',
   'icons/icon-512x512.png'

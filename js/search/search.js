@@ -76,6 +76,8 @@
                 return 'الزيارات';
             case 'nahj':
                 return 'نهج البلاغة';
+            case 'khutbah':
+                return 'خطب الجمعة';
             default:
                 return '';
         }
@@ -172,6 +174,12 @@
                     setTimeout(() => {
                         openNahjItems(item.categoryIndex);
                         setTimeout(() => openNahjDetails(item.itemIndex), 50);
+                    }, 50);
+                } else if (section === 'khutbah') {
+                    openPage('khutbah-categories-view');
+                    setTimeout(() => {
+                        openKhutbahItems(item.categoryIndex);
+                        setTimeout(() => openKhutbahDetails(item.itemIndex), 50);
                     }, 50);
                 }
             });
