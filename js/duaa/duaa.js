@@ -20,93 +20,6 @@
 // entry should be an object with properties: id, title, file.
 const duaaList = (Array.isArray(window.duaaList) ? window.duaaList : []);
 
-// Track which supplication is currently active. This helps the audio module know
-// which audio URL to load when toggling playback.
-let currentDuaaIndex = null;
-
-// URLs for supplication audio files. Each index corresponds to the order
-// of items in duaaList. Entries that are `null` mean no audio is available
-// for that supplication. These values were derived from the provided
-// dua_links.json, de‑duplicated and matched by title.
-const duaaAudioUrls = [
-    'https://shiavoice.com/media/edaie/du3a_kumail/dvk4uhpurqhr.mp3',
-    'https://shiavoice.com/media/edaie/du3a_3eshrat/xsdi2jde3xhq.mp3',
-    'https://shiavoice.com/media/edaie/du3a_elsmat/xb7v5tfbt71k.mp3',
-    'https://shiavoice.com/media/edaie/du3a_mashlool/hp4aer6qk4ke.mp3',
-    'https://shiavoice.com/media/edaie/du3a_ysteshir/ihpasjp0mwi9.mp3',
-    'https://shiavoice.com/media/edaie/du3a_mujir/ru0jjbybt7tbktm.mp3',
-    'https://shiavoice.com/media/edaie/du3a_el3edile/dh7xfo5eecwum5x.mp3',
-    'https://shiavoice.com/media/edaie/du3a_jawshan/oc2gy8wu183u.mp3',
-    'https://shiavoice.com/media/edaie/du3a_jawshan_zeger/mks0s4vkro9u.mp3',
-    'https://shiavoice.com/media/edaie/mutefereqe/htj0hjkedfze.mp3',
-    'https://shiavoice.com/media/edaie/du3a_el7zin/kqrvk78kklhr5qy.mp3',
-    'https://shiavoice.com/media/edaie/du3a_eltewesul/tsunwxptnk57.mp3',
-    'https://shiavoice.com/media/edaie/asdarat/mirza_hussein_kazim/ed3ie_rejab2/mw8sw2dxaja0.mp3',
-    'https://shiavoice.com/media/edaie/du3a_nudbe/4gbktohimqefsuz.mp3',
-    'https://shiavoice.com/media/edaie/du3a_ehl_elthkur/zeqtoiidxiv0.mp3',
-    'https://shiavoice.com/media/edaie/du3a_seba7/zjqtnf5490ow.mp3',
-    null,
-    'https://shiavoice.com/media/edaie/asdarat/hussein_qarib/rab_nor_elathim/5ntpv6g90tmfaim.mp3',
-    'https://shiavoice.com/media/edaie/asdarat/hussein_elakref/adaeiat_layali_alqadr/cjnwpwu2lnumagx.mp3',
-    'https://shiavoice.com/media/edaie/du3a_behae/ivaxr1zwdfhn.mp3',
-    'https://shiavoice.com/media/edaie/du3a_yamefze3i/uexdvwcvbs77.mp3',
-    'https://shiavoice.com/media/edaie/du3a_ya3udeti/qaad7tcsnbak.mp3',
-    null,
-    null,
-    null,
-    'https://shiavoice.com/media/zeiarat/mutefere8e/uhhc8us6ee50rmz.mp3',
-    'https://shiavoice.com/media/edaie/du3a_3qleme/ksd2keofjpkh.mp3',
-    'https://shiavoice.com/media/edaie/asdarat/3abd_elhei_alqember/edaie_sher_rajab/gpguvucrvvkc5l7.mp3',
-    null,
-    'https://shiavoice.com/media/edaie/asdarat/ahmed_elfetlawi/tewesul_eldemua/xytqvjpe46z2.mp3',
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null
-];
-
-/**
- * Toggle the audio player visibility for the current supplication. When shown, it
- * loads the appropriate MP3 file based on the currentDuaaIndex and starts
- * playing. When hidden, playback is paused and the player is hidden.
- */
-function toggleDuaaAudio() {
-    const playerContainer = document.getElementById('duaa-audio-player');
-    if (!playerContainer) return;
-    let audioEl = playerContainer.querySelector('audio');
-    if (!audioEl) {
-        audioEl = document.createElement('audio');
-        audioEl.controls = true;
-        audioEl.className = 'w-full';
-        playerContainer.appendChild(audioEl);
-    }
-    const url = Array.isArray(duaaAudioUrls) && currentDuaaIndex != null ? duaaAudioUrls[currentDuaaIndex] : null;
-    if (!url) {
-        // If no audio is available for this supplication, simply hide the player
-        return;
-    }
-    if (playerContainer.classList.contains('hidden')) {
-        audioEl.src = url;
-        playerContainer.classList.remove('hidden');
-        audioEl.play().catch(() => {});
-    } else {
-        audioEl.pause();
-        playerContainer.classList.add('hidden');
-    }
-}
-
-// Expose the audio toggle function to the global scope so it can be called from HTML
-if (typeof window !== 'undefined') {
-    window.toggleDuaaAudio = toggleDuaaAudio;
-}
-
 /**
  * Render the list of supplication titles into the container. Each
  * title becomes a clickable card that opens the corresponding
@@ -196,8 +109,6 @@ function loadDuaaContent(fileName) {
 async function openDuaaDetails(index) {
     const item = duaaList[index];
     if (!item) return;
-    // Update the currently active supplication index for audio playback
-    currentDuaaIndex = index;
     // Update title
     const titleEl = document.getElementById('duaa-title');
     if (titleEl) titleEl.textContent = item.title;
@@ -216,16 +127,6 @@ async function openDuaaDetails(index) {
     if (listView) listView.classList.add('hidden');
     if (detailsView) detailsView.classList.remove('hidden');
     window.scrollTo(0, 0);
-
-    // Hide any existing audio player and pause playback when opening a new supplication
-    const audioContainer = document.getElementById('duaa-audio-player');
-    if (audioContainer) {
-        const audioEl = audioContainer.querySelector('audio');
-        if (audioEl) {
-            audioEl.pause();
-        }
-        audioContainer.classList.add('hidden');
-    }
 
     // Update favorite button state and attach click handler
     if (typeof updateFavButton === 'function') {
@@ -264,15 +165,6 @@ function closeDuaaDetails() {
     if (detailsView) detailsView.classList.add('hidden');
     if (listView) listView.classList.remove('hidden');
     window.scrollTo(0, 0);
-    // When leaving the details view, hide and pause any active audio player
-    const audioContainer = document.getElementById('duaa-audio-player');
-    if (audioContainer) {
-        const audioEl = audioContainer.querySelector('audio');
-        if (audioEl) {
-            audioEl.pause();
-        }
-        audioContainer.classList.add('hidden');
-    }
 }
 
 // Initialize the supplications list once the DOM is ready. We do not

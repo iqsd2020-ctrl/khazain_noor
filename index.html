@@ -418,18 +418,10 @@
                     <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="الوضع الليلي/النهاري">
                         <i class="fa-regular fa-moon text-sm theme-toggle-icon"></i>
                     </button>
-                    <!-- Audio toggle button for supplication details -->
-                    <button id="duaa-audio-btn" onclick="toggleDuaaAudio()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تشغيل الصوت">
-                        <i class="fa-solid fa-volume-high text-sm"></i>
-                    </button>
                     <button onclick="copyCurrentText('duaa-content-container')" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="نسخ النص">
                         <i class="fa-regular fa-copy text-sm"></i>
                     </button>
                 </div>
-            </div>
-            <!-- Audio player container (hidden by default) -->
-            <div id="duaa-audio-player" class="hidden glass-card rounded-xl p-3 mb-4 max-w-3xl mx-auto">
-                <!-- Audio element will be inserted dynamically by JS -->
             </div>
             <!-- Content container for supplication text -->
             <div id="duaa-content-container" class="space-y-4 pb-10 min-h-[300px]"></div>
@@ -481,17 +473,11 @@
                     <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="الوضع الليلي/النهاري">
                         <i class="fa-regular fa-moon text-sm theme-toggle-icon"></i>
                     </button>
-                    <!-- Audio toggle button for monajat details -->
-                    <button id="monajat-audio-btn" onclick="toggleMonajatAudio()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تشغيل الصوت">
-                        <i class="fa-solid fa-volume-high text-sm"></i>
-                    </button>
                     <button onclick="copyCurrentText('monajat-content-container')" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="نسخ النص">
                         <i class="fa-regular fa-copy text-sm"></i>
                     </button>
                 </div>
             </div>
-            <!-- Audio player container for monajat (hidden by default) -->
-            <div id="monajat-audio-player" class="hidden glass-card rounded-xl p-3 mb-4 max-w-3xl mx-auto"></div>
             <div id="monajat-content-container" class="space-y-4 pb-10 min-h-[300px]"></div>
         </div>
 
@@ -615,19 +601,10 @@
                     <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="الوضع الليلي/النهاري">
                         <i class="fa-regular fa-moon text-sm theme-toggle-icon"></i>
                     </button>
-                    <button id="rights-audio-btn" onclick="toggleRightsAudio()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="استماع">
-                        <i class="fa-solid fa-volume-high text-sm"></i>
-                    </button>
                     <button onclick="copyCurrentText('rights-content-container')" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="نسخ النص">
                         <i class="fa-regular fa-copy text-sm"></i>
                     </button>
                 </div>
-            </div>
-            <!-- Audio player for rights -->
-            <div id="rights-audio-player" class="glass-card rounded-xl p-3 mb-6 max-w-3xl mx-auto hidden">
-                <audio controls class="w-full" preload="none">
-                    <source src="" type="audio/mpeg">
-                </audio>
             </div>
             <div id="rights-content-container" class="space-y-4 pb-10 min-h-[300px]"></div>
         </div>
@@ -734,9 +711,7 @@
                     <button id="nahj-fav-btn" class="p-3 rounded-full hover:bg-white/10 transition text-yellow-400" title="أضف إلى المفضلة">
                         <i class="fa-regular fa-star text-xl"></i>
                     </button>
-                    <!-- Use the responsive nahj-title class to scale font size dynamically based on screen width.
-                         Removed text-2xl and truncate classes to avoid fixed sizing and truncation; the nahj-title class handles responsiveness. -->
-                    <h2 id="nahj-item-title" class="nahj-title font-bold text-indigo-200 card-title">عنوان النص</h2>
+                    <h2 id="nahj-item-title" class="text-2xl font-bold text-indigo-200 card-title truncate">عنوان النص</h2>
                 </div>
                 <div class="flex items-center gap-2 flex-wrap">
                     <button onclick="changeFontSize(0.1)" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تكبير الخط">
@@ -817,8 +792,8 @@
                     <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="الوضع الليلي/النهاري">
                         <i class="fa-regular fa-moon text-sm theme-toggle-icon"></i>
                     </button>
-                    <!-- Audio toggle button for khutbah details -->
-                    <button id="khutbah-audio-btn" onclick="toggleKhutbahAudio()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تشغيل الصوت">
+                    <!-- Audio button to toggle the sermon audio player -->
+                    <button id="khutbah-audio-btn" onclick="toggleKhutbahAudio()" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="تشغيل الخطبة">
                         <i class="fa-solid fa-volume-high text-sm"></i>
                     </button>
                     <button onclick="copyCurrentText('khutbah-content-container')" class="p-2 rounded-full hover:bg-white/10 transition text-white" title="نسخ النص">
@@ -826,10 +801,8 @@
                     </button>
                 </div>
             </div>
-            <!-- Audio player container (hidden by default) -->
-            <div id="khutbah-audio-player" class="hidden glass-card rounded-xl p-3 mb-4 max-w-3xl mx-auto">
-                <!-- Audio element will be inserted dynamically by JS -->
-            </div>
+            <!-- Container for sermon audio player; hidden by default -->
+            <div id="khutbah-audio-player" class="mb-4 max-w-3xl mx-auto hidden"></div>
             <div id="khutbah-content-container" class="space-y-4 pb-10 min-h-[300px]"></div>
         </div>
 
@@ -1212,8 +1185,6 @@ function closeOccasionsPage() {
     <script src="js/baqiat/baqiat.js"></script>
     <!-- Preloaded Rights categories and items -->
     <script src="js/rights/rightsTabs.js"></script>
-    <!-- Rights audio map -->
-    <script src="js/rights/rightsAudio.js"></script>
     <!-- Rights logic -->
     <script src="js/rights/rights.js"></script>
     <!-- Preloaded Ziyarat categories and items -->

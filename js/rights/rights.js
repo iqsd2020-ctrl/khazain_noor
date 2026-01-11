@@ -15,61 +15,6 @@
 const rightsTabs = Array.isArray(window.rightsTabs) ? window.rightsTabs : [];
 let currentRightsTab = null;
 
-// Audio support
-const rightsAudioMap = (window.rightsAudioMap && typeof window.rightsAudioMap === 'object') ? window.rightsAudioMap : {};
-let currentRightsTitle = null;
-
-function hideRightsAudio() {
-    const container = document.getElementById('rights-audio-player');
-    if (!container) return;
-    const audioEl = container.querySelector('audio');
-    if (audioEl) {
-        audioEl.pause();
-    }
-    container.classList.add('hidden');
-    const btn = document.getElementById('rights-audio-btn');
-    if (btn) {
-        const icon = btn.querySelector('i');
-        if (icon) {
-            icon.className = 'fa-solid fa-volume-high text-sm';
-        }
-    }
-}
-
-function toggleRightsAudio() {
-    const container = document.getElementById('rights-audio-player');
-    const btn = document.getElementById('rights-audio-btn');
-    if (!container || !btn) return;
-
-    const title = currentRightsTitle;
-    const url = title ? rightsAudioMap[title] : null;
-    if (!url) {
-        // No audio available for this right
-        return;
-    }
-
-    const audioEl = container.querySelector('audio');
-    if (!audioEl) return;
-
-    const isHidden = container.classList.contains('hidden');
-    if (isHidden) {
-        // Show and load URL if needed
-        if (audioEl.dataset.src !== url) {
-            audioEl.pause();
-            audioEl.src = url;
-            audioEl.load();
-            audioEl.dataset.src = url;
-        }
-        container.classList.remove('hidden');
-        const icon = btn.querySelector('i');
-        if (icon) icon.className = 'fa-solid fa-xmark text-sm';
-        // Try to play; ignore autoplay restrictions
-        audioEl.play().catch(() => {});
-    } else {
-        hideRightsAudio();
-    }
-}
-
 function renderRightsCategories() {
     const container = document.getElementById('rights-categories-container');
     if (!container) return;
@@ -92,9 +37,6 @@ function renderRightsCategories() {
 
 function openRightsItems(tabIndex) {
     currentRightsTab = tabIndex;
-    // Leaving details context
-    currentRightsTitle = null;
-    hideRightsAudio();
     const tab = rightsTabs[tabIndex];
     if (!tab) return;
     const itemsView = document.getElementById('rights-items-view');
@@ -127,8 +69,6 @@ async function openRightsDetails(itemIndex) {
     const tab = rightsTabs[currentRightsTab];
     if (!tab || !tab.items[itemIndex]) return;
     const item = tab.items[itemIndex];
-    currentRightsTitle = item.title;
-    hideRightsAudio();
     const itemsView = document.getElementById('rights-items-view');
     const detailsView = document.getElementById('rights-details-view');
     if (itemsView) itemsView.classList.add('hidden');
@@ -178,8 +118,6 @@ function backToRightsCategories() {
     const categoriesView = document.getElementById('rights-categories-view');
     if (itemsView) itemsView.classList.add('hidden');
     if (categoriesView) categoriesView.classList.remove('hidden');
-    currentRightsTitle = null;
-    hideRightsAudio();
     window.scrollTo(0, 0);
 }
 
@@ -188,8 +126,6 @@ function backToRightsItems() {
     const itemsView = document.getElementById('rights-items-view');
     if (detailsView) detailsView.classList.add('hidden');
     if (itemsView) itemsView.classList.remove('hidden');
-    currentRightsTitle = null;
-    hideRightsAudio();
     window.scrollTo(0, 0);
 }
 

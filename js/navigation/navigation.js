@@ -162,36 +162,6 @@ function closePage() {
     if (khutbahItemsView) khutbahItemsView.classList.add('hidden');
     if (khutbahDetailsView) khutbahDetailsView.classList.add('hidden');
 
-    // Pause and hide khutbah audio when leaving any page
-    const khutbahPlayerContainer = document.getElementById('khutbah-audio-player');
-    if (khutbahPlayerContainer) {
-        const audioEl = khutbahPlayerContainer.querySelector('audio');
-        if (audioEl) {
-            audioEl.pause();
-        }
-        khutbahPlayerContainer.classList.add('hidden');
-    }
-
-    // Pause and hide monajat audio when leaving any page
-    const monajatPlayerContainer = document.getElementById('monajat-audio-player');
-    if (monajatPlayerContainer) {
-        const monajatAudioEl = monajatPlayerContainer.querySelector('audio');
-        if (monajatAudioEl) {
-            monajatAudioEl.pause();
-        }
-        monajatPlayerContainer.classList.add('hidden');
-    }
-
-    // Pause and hide rights audio when leaving any page
-    const rightsPlayerContainer = document.getElementById('rights-audio-player');
-    if (rightsPlayerContainer) {
-        const rightsAudioEl = rightsPlayerContainer.querySelector('audio');
-        if (rightsAudioEl) {
-            rightsAudioEl.pause();
-        }
-        rightsPlayerContainer.classList.add('hidden');
-    }
-
     // Hide favorites view
     const favoritesView = document.getElementById('favorites-view');
     if (favoritesView) favoritesView.classList.add('hidden');
